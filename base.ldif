@@ -1,0 +1,5 @@
+dn: dc=surreypoliceband,dc=org,dc=uk
+objectclass: dcObject
+objectclass: domain
+dc: surreypoliceband
+description: Top level LDAP for Band

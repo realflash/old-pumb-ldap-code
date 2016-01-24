@@ -1,0 +1,6 @@
+<!--#include virtual="header.html"-->
+<!--#include virtual="menubar_contacts.html"-->
+						<h2>Message sent</h2>
+						Your message has been sent successfully. We'll get back to you as soon as we can.<br/>
+						<img src="/images/spacer.gif" width="594" height="1" border="0"/>
+<!--#include virtual="footer.html"-->

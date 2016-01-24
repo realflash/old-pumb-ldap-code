@@ -1,0 +1,294 @@
+attributetype ( 1.3.6.1.4.1.666.2.1 NAME 'spb-houseIdentifierLocation'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} )
+
+attributetype ( 1.3.6.1.4.1.666.2.2 NAME 'spb-streetLocation'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.3 NAME 'spb-boroughLocation'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.4 NAME 'spb-townLocation'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.5 NAME 'spb-countyLocation'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.6 NAME 'spb-postcodeLocation'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.7 NAME 'spb-latLocation'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.8 NAME 'spb-longLocation'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.9 NAME 'spb-date'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.10 NAME 'spb-time'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.11 NAME 'spb-subPrice'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.12 NAME 'spb-uniqueAttendee'
+        DESC 'RFC2256: house identifier'
+        EQUALITY uniqueMemberMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.34 )
+
+attributetype ( 1.3.6.1.4.1.666.2.13 NAME 'spb-eventType'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.14 NAME 'spb-uniqueSubPayer'
+        DESC 'RFC2256: house identifier'
+        EQUALITY uniqueMemberMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.34 )
+
+attributetype ( 1.3.6.1.4.1.666.2.15 NAME 'spb-gender'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.16 NAME 'spb-dateOfBirth'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.17 NAME 'spb-subBalance'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.18 NAME 'spb-subCharged'
+        DESC 'Whether subs have been charged to a user or not'
+        EQUALITY booleanMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.7 )
+
+attributetype ( 1.3.6.1.4.1.666.2.19 NAME 'spb-displayName'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.20 NAME 'spb-websiteAnchorName'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.21 NAME 'spb-instrument'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} )
+
+attributetype ( 1.3.6.1.4.1.666.2.22 NAME 'spb-uniqueIntendedAttendee'
+        DESC 'RFC2256: house identifier'
+        EQUALITY uniqueMemberMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.34 )
+
+attributetype ( 1.3.6.1.4.1.666.2.23 NAME 'spb-uniqueIntendedAbsentee'
+        DESC 'RFC2256: house identifier'
+        EQUALITY uniqueMemberMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.34 )
+
+attributetype ( 1.3.6.1.4.1.666.2.24 NAME 'spb-subPayment'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} )
+
+attributetype ( 1.3.6.1.4.1.666.2.25 NAME 'spb-intendanceRequiredDate'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.26 NAME 'spb-lastIntendanceReminderDate'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.27 NAME 'spb-employerName'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.28 NAME 'spb-warrantHolder'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.29 NAME 'spb-timeOnSite'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.30 NAME 'spb-bandRoleInEvent'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.31 NAME 'spb-requesterName'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.32 NAME 'spb-requesterLandline'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.33 NAME 'spb-requesterMobile'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.34 NAME 'spb-requesterEmail'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.35 NAME 'spb-requesterHouseIdentifierLocation'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.36 NAME 'spb-requesterStreetLocation'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.37 NAME 'spb-requesterBoroughLocation'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.38 NAME 'spb-requesterTownLocation'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.39 NAME 'spb-requesterCountyLocation'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.40 NAME 'spb-requesterPostcodeLocation'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.41 NAME 'spb-requesterCountryLocation'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.42 NAME 'spb-countryLocation'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.43 NAME 'spb-requesterWebsite'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.44 NAME 'spb-requesterOrgName'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.45 NAME 'spb-requesterFreeText'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.46 NAME 'spb-eventStatus'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.666.2.47 NAME 'spb-joinDate'
+        DESC 'RFC2256: house identifier'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} SINGLE-VALUE )
+
+
+objectclass ( 1.3.6.1.4.1.666.1.1 NAME 'spbPerson'
+		SUP ( inetOrgPerson $ pilotPerson ) STRUCTURAL
+		MUST spb-gender MAY ( spb-dateOfBirth $ spb-subBalance $ spb-instrument $ spb-employerName $ spb-warrantHolder $ spb-joinDate) )
+
+objectclass ( 1.3.6.1.4.1.666.1.2 NAME 'spbLocation'
+		SUP top AUXILIARY
+		MAY ( spb-houseIdentifierLocation $ spb-streetLocation $ spb-boroughLocation $ spb-townLocation $ spb-countyLocation $ spb-postcodeLocation $ spb-latLocation $ spb-longLocation $ spb-countryLocation ) ) 
+
+objectclass ( 1.3.6.1.4.1.666.1.3 NAME 'spbEvent'
+		SUP top
+		MUST ( cn $ spb-displayName $ spb-date $ spb-time $ spb-subPrice $ spb-eventType )
+		MAY ( spb-uniqueAttendee $ spb-uniqueIntendedAttendee $ spb-uniqueIntendedAbsentee $ spb-uniqueSubPayer $ spb-subCharged $ description $ spb-websiteAnchorName $ spb-subPayment $ spb-intendanceRequiredDate $ spb-lastIntendanceReminderDate $ spb-timeOnSite $ spb-bandRoleInEvent $ spb-requesterName $ spb-requesterEmail $ spb-requesterLandline $ spb-requesterMobile $ spb-requesterHouseIdentifierLocation $ spb-requesterStreetLocation $ spb-requesterBoroughLocation $ spb-requesterTownLocation $ spb-requesterCountyLocation $ spb-requesterPostcodeLocation $ spb-requesterCountryLocation $ spb-requesterWebsite $ spb-requesterOrgName $ spb-requesterFreeText $ spb-eventStatus ) )

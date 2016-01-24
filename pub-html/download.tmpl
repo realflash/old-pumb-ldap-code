@@ -1,0 +1,25 @@
+			<h2><TMPL_VAR NAME="TITLE"></h2>
+		<TMPL_IF NAME="NO_FILES">
+			No files available.
+		<TMPL_ELSE>
+			<table border="0" cellpadding="3">
+				<tr>
+					<th class="entitylistheader">Filename</th>
+					<th class="entitylistheader">Size (Mb)</th>
+					<th class="entitylistheader">Date</th>
+				</tr>
+				<TMPL_LOOP NAME="FILES">
+				<tr>
+					<td class="entitylist<TMPL_VAR NAME="COLOUR_NUMBER">">
+						<a href="download.pl?fn=<TMPL_VAR NAME="ENCODED_FN">"><TMPL_VAR NAME="DISP_FN"></a>
+					</td>
+					<td class="entitylist<TMPL_VAR NAME="COLOUR_NUMBER">">
+						<TMPL_VAR NAME="SIZE">
+					</td>
+					<td class="entitylist<TMPL_VAR NAME="COLOUR_NUMBER">">
+						<TMPL_VAR NAME="MTIME">
+					</td>
+				</tr>
+				</TMPL_LOOP>
+			</table>
+		</TMPL_IF>

@@ -1,0 +1,32 @@
+	<TMPL_IF NAME="LOGGED_IN">
+		<TMPL_IF NAME="SUCCESS">
+			<h2>Password changed successfully</h2>
+			Your password has been successfully changed by the system to the new one you specified. 
+		<TMPL_ELSE>	
+			<h2>Password change required</h2>
+			Your password was set by the system and must now be changed to a different one. Choose your new password below.<br/><br/>
+			<div class="loginerror"><TMPL_VAR NAME="MSG"></div><br/>
+			<form action="updatepwd.pl" method="post">
+			<input type="hidden" name="action" value="update"/>
+			<table border="0" cellpadding="3">
+				<tr>
+					<td align="right">New Password:</td>
+					<td><input type="password" size="<TMPL_VAR NAME="MAX_PASS_LENGTH">" name="pass"/></td>
+				</tr>
+				<tr>
+					<td align="right">Confirm New Password:</td>
+					<td><input type="password" size="<TMPL_VAR NAME="MAX_PASS_LENGTH">" name="pass2"/></td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+						<br/>
+						<input value="Change my password" type="submit"/>
+					</td>
+				</tr>
+			</table>
+			</form>
+		</TMPL_IF>
+	<TMPL_ELSE>
+		<h2>Not available</h2>
+		You cannot access this page while you are not logged in. Log in <a href="login.pl">here</a> first.
+	</TMPL_IF>

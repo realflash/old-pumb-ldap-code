@@ -1,0 +1,10 @@
+		<TMPL_IF NAME="SUCCESS">
+			<h2>Password reset</h2>
+			Your password has been successfully reset, and emailed to all your band-related email addresses. When you have received this email,
+			return here with the new password and <a href="login.pl">log in</a>.<br/>
+			<br/>
+			The email should arrive in a few minutes. If you have not received the email after an hour, check your Spam or Junk Mail folder. Your email program may have thought the email I sent you was spam.
+		<TMPL_ELSE>
+			<h1>Address or username not known</h1>
+			The email address or username <TMPL_VAR NAME="UID"> is not recognised, so I can't reset your password. Please go back and try again.
+		</TMPL_IF>

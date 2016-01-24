@@ -1,0 +1,140 @@
+dn: dc=surreypoliceband,dc=org,dc=uk
+description: Top level LDAP for Band
+dc: surreypoliceband
+objectClass: dcObject
+objectClass: domain
+
+dn: ou=Policies,dc=surreypoliceband,dc=org,dc=uk
+ou: Policies
+objectClass: top
+objectClass: organizationalUnit
+
+dn: ou=PasswordPolicies,ou=Policies,dc=surreypoliceband,dc=org,dc=uk
+ou: PasswordPolicies
+objectClass: top
+objectClass: organizationalUnit
+
+dn: cn=pub,ou=PasswordPolicies,ou=Policies,dc=surreypoliceband,dc=org,dc=uk
+objectClass: top
+objectClass: device
+objectClass: pwdPolicy
+pwdAttribute: userPassword
+pwdMustChange: TRUE
+cn: pub
+
+dn: ou=current,dc=surreypoliceband,dc=org,dc=uk
+ou: current
+objectClass: organizationalUnit
+
+dn: ou=deleted,dc=surreypoliceband,dc=org,dc=uk
+ou: deleted
+objectClass: organizationalUnit
+
+dn: ou=people,ou=current,dc=surreypoliceband,dc=org,dc=uk
+ou: people
+objectClass: organizationalUnit
+
+dn: ou=people,ou=deleted,dc=surreypoliceband,dc=org,dc=uk
+ou: people
+objectClass: organizationalUnit
+
+dn: ou=events,ou=current,dc=surreypoliceband,dc=org,dc=uk
+ou: events
+objectClass: organizationalUnit
+
+dn: ou=events,ou=deleted,dc=surreypoliceband,dc=org,dc=uk
+ou: events
+objectClass: organizationalUnit
+
+dn: ou=groups,ou=current,dc=surreypoliceband,dc=org,dc=uk
+ou: groups
+objectClass: organizationalUnit
+
+dn: ou=groups,ou=deleted,dc=surreypoliceband,dc=org,dc=uk
+ou: groups
+objectClass: organizationalUnit
+
+dn: cn=Directory Admins,ou=groups,ou=current,dc=surreypoliceband,dc=org,dc=uk
+objectClass: groupOfUniqueNames
+uniqueMember: uid=gibbsi,ou=people,ou=current,dc=surreypoliceband,dc=org,dc=uk
+cn: Directory Admins
+
+dn: cn=Membership Admins,ou=groups,ou=current,dc=surreypoliceband,dc=org,dc=uk
+objectClass: groupOfUniqueNames
+cn: Membership Admins
+uniqueMember: uid=gibbsi,ou=people,ou=current,dc=surreypoliceband,dc=org,dc=uk
+
+dn: cn=Performers,ou=groups,ou=current,dc=surreypoliceband,dc=org,dc=uk
+objectClass: groupOfUniqueNames
+cn: Performers
+uniqueMember: uid=gibbsi,ou=people,ou=current,dc=surreypoliceband,dc=org,dc=uk
+
+dn: cn=Sub-paying members,ou=groups,ou=current,dc=surreypoliceband,dc=org,dc=u
+ k
+objectClass: groupOfUniqueNames
+cn: Sub-paying members
+uniqueMember: uid=gibbsi,ou=people,ou=current,dc=surreypoliceband,dc=org,dc=uk
+
+dn: uid=gibbsi,ou=people,ou=current,dc=surreypoliceband,dc=org,dc=uk
+objectClass: spbPerson
+objectClass: spbLocation
+uid: gibbsi
+spb-latLocation: 51.2164765
+spb-longLocation: -0.5830422
+spb-joinDate: 20070210215456Z
+userPassword:: e2NyeXB0fWttem9TVHZ2cnNMV0U=
+cn:: SWFuACBHaWJicw==
+spb-dateOfBirth: 19790112
+spb-warrantHolder: 1
+personalTitle: Mr.
+spb-boroughLocation: Someplace
+mobile: 07777 777777
+spb-subBalance: 25
+spb-postcodeLocation: GU20 2HL
+homePhone: 01111 111111
+spb-countyLocation: Surrey
+spb-townLocation: Woking
+spb-streetLocation: Blod Close
+spb-houseIdentifierLocation: 277
+sn: Gibbs
+spb-gender: male
+givenName:: SWFuAA==
+employeeType: PERFORMER
+employeeType: SECRETARY
+employeeType: TREASURER
+mail: me@here.com
+mail: flkhkjhk666@yahoo.com
+
+
+dn: cn=Epsom & Ewell Community Fete,ou=events,ou=current,dc=surreypoliceband,d
+ c=org,dc=uk
+spb-streetLocation: Reigate Road
+spb-websiteAnchorName: epsom&ewellcommunityfete
+objectClass: spbEvent
+objectClass: spbLocation
+spb-uniqueSubPayer: uid=gibbsi,ou=people,ou=current,dc=surreypoliceband,dc=org
+ ,dc=uk
+spb-time: 1230
+spb-displayName: Epsom & Ewell Community Fete
+cn: Epsom & Ewell Community Fete
+spb-subCharged: TRUE
+spb-uniqueIntendedAttendee: uid=gibbsi,ou=people,ou=current,dc=surreypoliceban
+ d,dc=org,dc=uk
+spb-intendanceRequiredDate: 20070616
+spb-postcodeLocation: KT17 3DS
+spb-townLocation: Epsom
+spb-eventType: PERFORMANCE
+description: At the request of the local Neighbourhood Specialist Officer, the
+  band have been asked to play at this event which will be attended by various
+  dignataries including members of the Surrey Police Authority, along with a l
+ arge part of the local community. Public event. Band members should meet at N
+ ESCOT at 12:30 for lift down. Event is to be held a Ewell Court House, with t
+ he band playing in two shifts at 14:30 to 15:00 and 15:30 to 16:00.
+spb-countyLocation: Surrey
+spb-date: 20070624
+spb-uniqueIntendedAbsentee: uid=allgom,ou=people,ou=current,dc=surreypoliceban
+ d,dc=org,dc=uk
+spb-houseIdentifierLocation: NESCOT
+spb-subPrice: 0.00
+
+

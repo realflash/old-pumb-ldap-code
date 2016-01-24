@@ -1,0 +1,175 @@
+		<TMPL_IF NAME="IS_EDIT">	
+			<h2><TMPL_VAR NAME="TITLE"></h2>
+			<TMPL_IF NAME="MESSAGE"><font color="red"><TMPL_VAR NAME="MESSAGE"></font></TMPL_IF>
+			Fields marked with an asterisk (<font color="red">*</font>) are mandatory<br/>
+			<br/>
+			<form action="event.pl" method="post">
+			<input type="hidden" name="event" value="<TMPL_VAR NAME="ESCAPED_EVENT">"/>
+			<input type="hidden" name="action" value="<TMPL_VAR NAME="NEXT_ACTION">"/>
+			<table border="0" cellpadding="3">
+				<tr>
+					<th class="entitySectionHeader" colspan="2">Vital Statistics</th>
+				</tr>
+				<tr>						
+					<td align="right"><TMPL_VAR NAME="EVENT_TYPE_LBL">:</td>
+					<td><select name="spb-eventType">
+						<option value="REHEARSAL"<TMPL_IF NAME="IS_REHEARSAL"> selected</TMPL_IF>>Rehearsal</option>
+						<option value="PERFORMANCE"<TMPL_IF NAME="IS_PERFORMANCE"> selected</TMPL_IF>>Performance</option>
+						<option value="SOCIAL"<TMPL_IF NAME="IS_SOCIAL"> selected</TMPL_IF>>Social</option>
+					</select></td>
+				</tr>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="DISP_NAME_LBL">:<font color="red">*</font></td>
+					<td><input type="text" size="50" name="spb-displayName" value="<TMPL_VAR NAME="DISP_NAME">"/></td>
+				</tr>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="DATE_LBL">:<font color="red">*</font></td>
+					<td><select name="na-dayOfEvent">
+						<TMPL_LOOP NAME="EVENT_DAY">
+							<option value="<TMPL_VAR NAME="PADDED_DAY">"<TMPL_IF NAME="SELECTED"> selected</TMPL_IF>><TMPL_VAR NAME="DAY"></option>
+						</TMPL_LOOP>
+						</select>
+						<select name="na-monthOfEvent">
+						<TMPL_LOOP NAME="EVENT_MONTH">
+							<option value="<TMPL_VAR NAME="MONTH_NUMBER">"<TMPL_IF NAME="SELECTED"> selected</TMPL_IF>><TMPL_VAR NAME="MONTH"></option>
+						</TMPL_LOOP>
+						</select>
+						<select name="na-yearOfEvent">
+						<TMPL_LOOP NAME="EVENT_YEAR">
+							<option<TMPL_IF NAME="SELECTED"> selected</TMPL_IF>><TMPL_VAR NAME="YEAR"></option>
+						</TMPL_LOOP>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="TIME_LBL">:<font color="red">*</font></td>
+					<td><select name="na-hourOfEvent">
+						<TMPL_LOOP NAME="EVENT_HOUR">
+							<option value="<TMPL_VAR NAME="PADDED_HOUR">"<TMPL_IF NAME="SELECTED"> selected</TMPL_IF>><TMPL_VAR NAME="PADDED_HOUR"></option>
+						</TMPL_LOOP>
+						</select>
+						<bold>:</bold>
+						<select name="na-minuteOfEvent">
+						<TMPL_LOOP NAME="EVENT_MINUTE">
+							<option<TMPL_IF NAME="SELECTED"> selected</TMPL_IF>><TMPL_VAR NAME="MINUTE"></option>
+						</TMPL_LOOP>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="SUBS_LBL">:<font color="red">*</font></td>
+					<td>
+					<TMPL_UNLESS NAME="SUB_CHARGED">
+						&pound; <input type="text" size="6" maxlength="6" name="spb-subPrice" value="<TMPL_VAR NAME="SUBS">">
+					<TMPL_ELSE>
+						&pound;<TMPL_VAR NAME="SUBS"> &nbsp;&nbsp;&nbsp;
+					</TMPL_UNLESS>
+					</td>
+				</tr>
+				<tr>
+					<th class="entitySectionHeader" colspan="2">Location</th>
+				</tr>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="HI_LBL">:<font color="red">*</font></td>
+					<td><input type="text" size="30" name="spb-houseIdentifierLocation" value="<TMPL_VAR NAME="HI">"/></td>
+				</tr>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="STREET_LBL">:<font color="red">*</font></td>
+					<td><input type="text" size="30" name="spb-streetLocation" value="<TMPL_VAR NAME="STREET">"/></td>
+				</tr>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="BOROUGH_LBL">:</td>
+					<td><input type="text" size="30" name="spb-boroughLocation" value="<TMPL_VAR NAME="BOROUGH">"/></td>
+				</tr>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="TOWN_LBL">:<font color="red">*</font></td>
+					<td><input type="text" size="30" name="spb-townLocation" value="<TMPL_VAR NAME="TOWN">"/></td>
+				</tr>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="COUNTY_LBL">:<font color="red">*</font></td>
+					<td><input type="gtext" size="30" name="spb-countyLocation" value="<TMPL_VAR NAME="COUNTY">"/></td>
+				</tr>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="POSTCODE_LBL">:<font color="red">*</font></td>
+					<td><input type="gtext" size="9" maxlength="9" name="spb-postcodeLocation" value="<TMPL_VAR NAME="POSTCODE">"/></td>
+				</tr>
+				<tr>
+					<th class="entitySectionHeader" colspan="2">About the event</th>
+				</tr>
+				<tr>
+					<td align="right" valign="top"><TMPL_VAR NAME="DESCRIPTION_LBL">:</td>
+					<td><textarea rows="8" cols="45" name="description"><TMPL_VAR NAME="DESCRIPTION"></textarea></td>
+				</tr>
+				<input type="hidden" name="spb-websiteAnchorName" value="<TMPL_VAR NAME="ANCHOR_NAME">"/>
+				<tr>
+					<td colspan="2" align="center">
+						<br/>
+						<input value="Submit" type="submit"/>&nbsp;&nbsp;&nbsp;<input type="reset"/>
+					</td>
+				</tr>
+			</table>
+			</form>
+		<TMPL_ELSE>
+			<h1><TMPL_VAR NAME="TITLE"></h1>
+			<TMPL_IF NAME="MESSAGE">
+			<font color="red">Msg: <TMPL_VAR NAME="MESSAGE"></font><br/>
+			<br/>
+			</TMPL_IF>
+			<TMPL_VAR NAME="IS_EDIT"><BR/>
+			<a href="event.pl?action=edit&event=<TMPL_VAR NAME="ESCAPED_EVENT">">
+				<img src="/images/edit.gif" border="0" title="Edit this event"/>
+			</a> 
+			<a href="event.pl?action=edit&event=<TMPL_VAR NAME="ESCAPED_EVENT">">
+				Edit this event
+			</a> | 
+			<a href="intendance.pl?action=edit&event=<TMPL_VAR NAME="ESCAPED_EVENT">">
+				<img src="/images/intendance.gif" border="0" title="Edit attendance for this event"/>
+			</a> 
+			<a href="intendance.pl?action=edit&event=<TMPL_VAR NAME="ESCAPED_EVENT">">
+				Edit attendance for this event
+			</a><br/>
+			<br/>
+			<table border="0" cellpadding="3">
+				<th class="entitySectionHeader" colspan="2">Vital statistics</th>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="EVENT_TYPE_LBL">:</td>
+					<td><TMPL_VAR NAME="EVENT_TYPE"></td>
+				</tr>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="DISP_NAME_LBL">:</td>
+					<td><TMPL_VAR NAME="DISP_NAME"></td>
+				</tr>
+				<tr>
+					<td align="right" valign="top"><TMPL_VAR NAME="DATE_LBL">:</td>
+					<td><TMPL_VAR NAME="DATE"><br/><TMPL_VAR NAME="DATE_DELTA"></td>
+				</tr>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="TIME_LBL">:</td>
+					<td><TMPL_VAR NAME="TIME"></td>
+				</tr>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="SUBS_LBL">:</td>
+					<td>&pound;<TMPL_VAR NAME="SUBS"></td>
+				</tr>
+				<th class="entitySectionHeader" colspan="2">Location</th>
+				<tr>
+					<td align="right" valign="top">Address:</td>
+					<td colspan="2"><TMPL_VAR NAME="HI"><TMPL_IF NAME="DISPLAY_AS_NUMBER"> <TMPL_ELSE>,<br/>
+					</TMPL_IF><TMPL_VAR NAME="STREET">,<br/>
+					<TMPL_VAR NAME="TOWN">,<br/>
+					<TMPL_VAR NAME="COUNTY">,<br/>
+					<TMPL_VAR NAME="POSTCODE"></td>
+				</tr>
+				<th class="entitySectionHeader" colspan="2">About the event</th>
+				<tr>
+					<td align="right" valign="top"><TMPL_VAR NAME="DESCRIPTION_LBL">:</td>
+					<td><TMPL_VAR NAME="DESCRIPTION"></td>
+				</tr>
+			<TMPL_IF NAME="IS_PERFORMANCE"> 
+				<tr>
+					<td align="right" valign="top"><TMPL_VAR NAME="ANCHOR_NAME_LBL">:</td>
+					<td><a href="<TMPL_VAR NAME="HOME">/cgi-bin/list_performances.pl#<TMPL_VAR NAME="ANCHOR_NAME">"><font size="-2"><TMPL_VAR NAME="HOME">/cgi-bin/list_performances.pl#<TMPL_VAR NAME="ANCHOR_NAME"></a></font></td>
+				</tr>
+			</TMPL_IF>
+			</table>
+		</TMPL_IF>

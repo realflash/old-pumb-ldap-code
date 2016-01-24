@@ -1,0 +1,32 @@
+			<h2><TMPL_VAR NAME="TITLE"></h2>
+			 To pay for one quarter's subs, click the Pay Now button below.<br/>
+			<br/>
+			You don't need to sign up for a PayPal account - just click 'Continue' next to 'Don't have a PayPal account'. 
+			Most of your details will be prepopulated so it will just take a few clicks. The following cards are accepted:
+			<img src="/images/paypal_cards.gif" border="0" alt="Visa, MC, Amex, Maestro, Switch, Solo, Delta, Electron">
+			<br/>
+
+<table border="0" cellpadding="3">
+<tr>
+	<td>Member subscription, 3 months</td>
+	<td>&pound;25.00 per household</td>
+	<td width="101">
+		<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+		<input type="hidden" name="cmd" value="_s-xclick">
+		<input type="hidden" name="hosted_button_id" value="6703914">
+		<input type="hidden" name="first_name" value="<TMPL_VAR NAME="GIVEN_NAME">">
+		<input type="hidden" name="last_name" value="<TMPL_VAR NAME="SN">">
+		<input type="hidden" name="address1" value="<TMPL_VAR NAME="HI">, <TMPL_VAR NAME="STREET">">
+		<input type="hidden" name="address2" value="<TMPL_VAR NAME="BOROUGH">">
+		<input type="hidden" name="city" value="<TMPL_VAR NAME="TOWN">">
+		<input type="hidden" name="state" value="<TMPL_VAR NAME="COUNTY">">
+		<input type="hidden" name="country" value="United Kingdom">
+		<input type="hidden" name="zip" value="<TMPL_VAR NAME="POSTCODE">">
+		<input type="hidden" name="night_phone_a" value="">
+		<input type="hidden" name="night_phone_b" value="<TMPL_VAR NAME="PHONE">">
+		<input type="image" src="https://www.paypal.com/en_GB/i/btn/btn_paynow_SM.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online.">
+		<img alt="" border="0" src="https://www.paypal.com/en_GB/i/scr/pixel.gif" width="1" height="1">
+		</form>
+	</td>
+</tr>
+ </table>

@@ -1,0 +1,32 @@
+<!--#include virtual="header.html"-->
+<!--#include virtual="menubar_about.html"-->
+					<h2>Frequently Asked Questions</h2>
+
+					<h3>Joining the band</h3>
+					<a href="joiningpolice">Do I need to be a police officer to join?</a><br/>
+					<a href="joiningage">Are there any age restrictions?</a><br/>
+					<a href="joiningstandard">What standard do I need to be able to play to?</a><br/>
+					<a href="joininginstrument">Which instruments are played in the band?</a><br/>
+					<a href="joiningrehearsals">When does the band rehearse?</a><br/>
+
+					<a name="joiningpolice"><h4>Do I need to be a police officer to join?</h4></a>
+					No - the band is open to everyone. Everyone can be a member, and will be considered a supporter of the band and its aims. Not all members will be 
+					asked to perform in the band - for instance, we may have enough players of a certain instrument already. At the moment the band does need additional
+					players in most sections, so don't hesitate to contact us, we'd love to have you.
+
+					<a name="joiningage"><h4>Are there any age restrictions?</h4></a>
+					There is no upper age limit, but you must be mobile in order to march. At the younger end of the scale, we usually consider 18 as the minimum age 
+					due to child protection considerations. However, if you are keen, contact us anyway and we'll be happy to talk.
+					
+					<a name="joiningstandard"><h4>What standard do I need to be able to play to?</h4></a>
+					The band wishes to pursue a high standard of playing, and one of our aims to help our members improve themselves, so we don't expect you to be a concert 
+					veteran. You should be able to read music and play tunefully (or rythmically depending upon your instrument). There's no joining audition.
+					
+					<a name="joininginstrument"><h4>Which instruments are played in the band?</h4></a>
+					All woodwind, brass and percussion players are welcome.
+
+					<a name="joiningrehearsals"><h4>When does the band rehearse?</h4></a>
+					The band rehearses on Thursdays at 19:45, at the <a href="">Surrey Police headquarters</a> in Guildford, Surrey (<a href="http://www.streetmap.co.uk">map</a>). 
+					You will be expected to maintain a 70% attendance record at rehearsals.
+					
+<!--#include virtual="footer.html"-->

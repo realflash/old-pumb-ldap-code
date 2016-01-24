@@ -1,0 +1,36 @@
+		<TMPL_IF NAME="LOGGED_IN">
+			<h1>Log in not required</h1>
+			<br/>
+			You are already logged in as <TMPL_VAR NAME="CN"> (username <TMPL_VAR NAME="UID">). If this is not you, 
+			click <a href="logout.pl">here</a>.
+		<TMPL_ELSE>
+			<h1>Log in required</h1>
+			<br/>
+			This is a private log in area for members of the band only.<br/><br/>
+			<div class="loginerror"><TMPL_VAR NAME="MSG"></div><br/>
+			<form action="login.pl" method="post">
+			<input type="hidden" name="laction" value="login"/>
+			<TMPL_LOOP NAME="EXTRA_PARAMS">
+			<input type="hidden" name="<TMPL_VAR NAME="NAME">" value="<TMPL_VAR NAME="VALUE">"/>
+			</TMPL_LOOP>
+			<table border="0" cellpadding="3">
+				<tr>
+					<td align="right">Username or email address:</td>
+					<td><input type="text" size="<TMPL_VAR NAME="MAX_UID_LENGTH">" name="uid"/></td>
+				</tr>
+				<tr>
+					<td align="right">Password:</td>
+					<td><input type="password" size="<TMPL_VAR NAME="MAX_PASS_LENGTH">" name="pass"/></td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+						<br/>
+						<input value="Submit" type="submit"/>&nbsp;&nbsp;&nbsp;<input type="reset"/>
+					</td>
+				</tr>
+			</table>
+			</form>
+			<br/>
+			If you have forgotten or don't know your username or password, click <a href="forgotten.pl">here</a>.
+	
+		</TMPL_IF>

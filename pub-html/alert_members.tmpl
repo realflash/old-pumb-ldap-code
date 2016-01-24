@@ -1,0 +1,13 @@
+			<h2><TMPL_VAR NAME="TITLE"></h2>
+			<table border="0" cellpadding="3">
+				<tr>
+					<th class="entitylistheader">Name</th>
+					<th class="entitylistheader">Mobile</th>
+				</tr>
+				<TMPL_LOOP NAME="USERS">
+				<tr>
+					<td class="entitylist<TMPL_VAR NAME="COLOUR_NUMBER">"><TMPL_VAR NAME="DISPLAY_NAME"></td>
+					<td class="entitylist<TMPL_VAR NAME="COLOUR_NUMBER">"><TMPL_VAR NAME="MOBILE"></td>
+				</tr>
+				</TMPL_LOOP>
+			</table>

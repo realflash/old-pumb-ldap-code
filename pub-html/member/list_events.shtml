@@ -1,0 +1,5 @@
+<!--#include virtual="header.html"-->
+<!--#include virtual="menubar_event.html"-->
+						<h2>List of events</h2>
+<!--#include virtual="cgi-bin/list_events.pl"-->
+<!--#include virtual="footer.html"-->

@@ -1,0 +1,55 @@
+			<h2><TMPL_VAR NAME="TITLE"></h2>
+			<table border="0" cellpadding="3">
+				<tr>
+					<th class="entitylistheader">Actions</th>
+					<th class="entitylistheader">Name</th>
+					<th class="entitylistheader">Date</th>
+				</tr>
+				<TMPL_LOOP NAME="EVENTS">
+				<TMPL_UNLESS NAME="IS_TODAY_ROW">
+				<tr>
+					<td class="entitylist<TMPL_VAR NAME="COLOUR_NUMBER">">
+						<a href="event.pl?action=view&event=<TMPL_VAR NAME="ENCODED_DN">">
+							<img src="/images/view.gif" border="0" title="View the details of <TMPL_VAR NAME="DISPLAY_NAME">"/>
+						</a>
+					<TMPL_IF NAME="IS_EVENT_ADMIN">
+						<a href="event.pl?action=edit&event=<TMPL_VAR NAME="ENCODED_DN">">
+							<img src="/images/edit.gif" border="0" title="Edit the details of <TMPL_VAR NAME="DISPLAY_NAME">"/>
+						</a>
+						<a href="intendance.pl?action=edit&event=<TMPL_VAR NAME="ENCODED_DN">">
+							<TMPL_IF NAME="INTENDANCE_REQ">
+							<img src="/images/intendance2.png" border="0" title="Edit/view list of members planning to come to <TMPL_VAR NAME="DISPLAY_NAME">"/>
+							<TMPL_ELSE>
+							<img src="/images/nointendance.png" border="0" title="Members not been asked to provide intentions for this event. Edit it to enable intendance"/>
+							</TMPL_IF>
+	 					</a>
+					<TMPL_ELSE>
+							<img src="/images/blank_button.gif" border="0" title="No permission to edit <TMPL_VAR NAME="DISPLAY_NAME">"/>
+							<img src="/images/blank_button.gif" border="0" title="No permission to edit intendance for <TMPL_VAR NAME="DISPLAY_NAME">"/>
+ 					</TMPL_IF> 
+					<TMPL_IF NAME="IS_MEMBER_ADMIN">
+						<a href="sub.pl?action=view&event=<TMPL_VAR NAME="ENCODED_DN">">
+							<img src="/images/subs2.gif" border="0" title="Subs and actual attendance for <TMPL_VAR NAME="DISPLAY_NAME">"/>
+						</a>
+					<TMPL_ELSE>
+							<img src="/images/blank_button.gif" border="0" title="No permission to edit subs for <TMPL_VAR NAME="DISPLAY_NAME">"/>
+					</TMPL_IF>
+					</td>
+					<td class="entitylist<TMPL_VAR NAME="COLOUR_NUMBER">">
+						<a href="event.pl?action=view&event=<TMPL_VAR NAME="ENCODED_DN">" title="View the details of <TMPL_VAR NAME="DISPLAY_NAME">">
+							<TMPL_VAR NAME="DISPLAY_NAME">
+						</a>
+					</td>
+					<td class="entitylist<TMPL_VAR NAME="COLOUR_NUMBER">">
+						<TMPL_VAR NAME="DISPLAY_DATE">
+					</td>
+				</tr>
+				<TMPL_ELSE>
+				<tr>
+					<td class="entitylist3">&nbsp;</td>
+					<td class="entitylist3">Today</td>
+					<td class="entitylist3"><TMPL_VAR NAME="DISPLAY_DATE"></td>
+				</tr>
+				</TMPL_UNLESS>
+				</TMPL_LOOP>
+			</table>

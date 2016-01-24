@@ -1,0 +1,88 @@
+<TMPL_UNLESS NAME="MOVED">
+	<TMPL_IF NAME="IS_ADMIN">
+		<TMPL_IF NAME="IS_EVENT">
+			<TMPL_IF NAME="IS_DELETE">
+				<h2>Delete Event</h2>
+				Select an event from the list below, and click Delete to delete it. When you delete an object, it is moved to an inactive area rather than destroyed. This means that if you make a mistake, you can easily <a href="delete.pl?type=event&action=undelete">undelete it again</a>. While an object is deleted, it won't be visible on this site other than on the undelete page, or used by any automatic processes like those that send reminder emails.<br/><br/>
+				Showing only events from today onwards<br/><br/>
+				<form action="delete.pl" method="post">
+					<input type="hidden" name="action" value="delete"/>
+					<input type="hidden" name="type" value="event"/>
+				<TMPL_IF NAME="ENTITY_LIST">
+					<select name="entity">
+					<TMPL_LOOP NAME="ENTITY_LIST">
+						<option value="<TMPL_VAR NAME="ENCODED_DN">">[<TMPL_VAR NAME="DISPLAY_DATE">] <TMPL_VAR NAME="DISPLAY_NAME"></option>
+					</TMPL_LOOP>
+					</select>
+					<input type="submit" value="Delete"/>
+				<TMPL_ELSE>
+					<i>No events to undelete</i>
+				</TMPL_IF>
+			</TMPL_IF>
+			<TMPL_IF NAME="IS_UNDELETE">
+				<h2>Undelete Event</h2>
+				Select an event from the list below, and click Undelete to undelete it. If you make a mistake, you can easily <a href="delete.pl?type=event&action=delete">delete it again</a>.<br/><br/>
+				Showing only events from today onwards<br/><br/>
+				<form action="delete.pl" method="post">
+					<input type="hidden" name="action" value="undelete"/>
+					<input type="hidden" name="type" value="event"/>
+				<TMPL_IF NAME="ENTITY_LIST">
+					<select name="entity">
+					<TMPL_LOOP NAME="ENTITY_LIST">
+						<option value="<TMPL_VAR NAME="ENCODED_DN">">[<TMPL_VAR NAME="DISPLAY_DATE">] <TMPL_VAR NAME="DISPLAY_NAME"></option>
+					</TMPL_LOOP>
+					</select>
+					<input type="submit" value="Undelete"/>
+				<TMPL_ELSE>
+					<i>No events to undelete</i>
+				</TMPL_IF>
+			</TMPL_IF>
+				</form>
+		</TMPL_IF>
+		<TMPL_IF NAME="IS_USER">
+			<TMPL_IF NAME="IS_DELETE">
+				<h2>Delete Member</h2>
+				Select a member from the list below, and click Delete to delete them. When you delete an object, it is moved to an inactive area rather than destroyed. This means that if you make a mistake, you can easily <a href="delete.pl?type=user&action=undelete">undelete them again</a>. While an object is deleted, it won't be visible on this site other than on the undelete page, or used by any automatic processes like those that send reminder emails.<br/><br/>
+				<form action="delete.pl" method="post">
+					<input type="hidden" name="action" value="delete"/>
+					<input type="hidden" name="type" value="member"/>
+				<TMPL_IF NAME="ENTITY_LIST">
+					<select name="entity">
+					<TMPL_LOOP NAME="ENTITY_LIST">
+						<option value="<TMPL_VAR NAME="ENCODED_DN">"><TMPL_VAR NAME="DISPLAY_NAME"></option>
+					</TMPL_LOOP>
+					</select>
+					<input type="submit" value="Delete"/>
+				<TMPL_ELSE>
+					<i>No events to undelete</i>
+				</TMPL_IF>
+				</form>
+			</TMPL_IF>
+			<TMPL_IF NAME="IS_UNDELETE">
+				<h2>Undelete Member</h2>
+				Select a member from the list below, and click Undelete to undelete them. If you make a mistake, you can easily <a href="delete.pl?type=user&action=delete">delete them again</a>.<br/><br/>
+				<form action="delete.pl" method="post">
+					<input type="hidden" name="action" value="undelete"/>
+					<input type="hidden" name="type" value="member"/>
+				<TMPL_IF NAME="ENTITY_LIST">
+					<select name="entity">
+					<TMPL_LOOP NAME="ENTITY_LIST">
+						<option value="<TMPL_VAR NAME="ENCODED_DN">"><TMPL_VAR NAME="DISPLAY_NAME"></option>
+					</TMPL_LOOP>
+					</select>
+					<input type="submit" value="Undelete"/>
+				<TMPL_ELSE>
+					<i>No events to undelete</i>
+				</TMPL_IF>
+				</form>
+			</TMPL_IF>
+		</TMPL_IF>
+	<TMPL_ELSE>
+		You do not have permission to access this page.
+	</TMPL_IF>
+<TMPL_ELSE>
+			<h2>Success</h2>
+			<TMPL_VAR NAME="MOVED"> has been <TMPL_IF NAME="IS_DELETE">deleted</TMPL_IF><TMPL_IF NAME="IS_UNDELETE">undeleted</TMPL_IF>.<br/>
+			<br/>
+			Was this as accident? If so, you can <a href="delete.pl?type=<TMPL_IF NAME="IS_USER">user</TMPL_IF><TMPL_IF NAME="IS_EVENT">event</TMPL_IF>&action=<TMPL_IF NAME="IS_DELETE">un</TMPL_IF>delete"><TMPL_IF NAME="IS_DELETE">un</TMPL_IF>delete them again</a>.
+</TMPL_UNLESS>

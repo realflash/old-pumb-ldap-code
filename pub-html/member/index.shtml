@@ -1,0 +1,4 @@
+<!--#include virtual="header.html"-->
+<!--#include virtual="menubar_main.html"-->
+Welcome page
+<!--#include virtual="footer.html"-->

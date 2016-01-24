@@ -1,0 +1,5 @@
+<!--#include virtual="header.html"-->
+<!--#include virtual="menubar_report.html"-->
+						<h2>Index of reports</h2>
+<!--#include virtual="reports_index.html"-->
+<!--#include virtual="footer.html"-->

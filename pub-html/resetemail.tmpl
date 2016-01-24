@@ -1,0 +1,14 @@
+Dear <TMPL_VAR NAME="CN">,
+
+Someone (hopefully you) has requested that your password for the <TMPL_VAR NAME="SITE_NAME"> website be reset. This has been done, and your username and your new password is shown below. The first time you log in to the site, you will be prompted to change this password to one that you can remember.
+
+Your username: <TMPL_VAR NAME="UID"><TMPL_LOOP NAME="MAIL"> OR <TMPL_VAR NAME="ADDRESS"></TMPL_LOOP>
+Your password: <TMPL_VAR NAME="PWD">
+
+<TMPL_IF NAME="MULTIPLEMATCHES">
+WARNING: You entered an email address as your identification. When trying to search for your account based on this email address, multiple accounts were found. This means someone else in the band is recorded as having the same email address as you. If this is expected, you can ignore this message. The password has been reset for the first match we found. If you wish to reset the password for one of the other matches, use a username instead of an email address.
+</TMPL_IF>
+Regards,
+--
+<TMPL_VAR NAME="SITE_NAME"> webmaster
+<TMPL_VAR NAME="ADMIN_EMAIL">

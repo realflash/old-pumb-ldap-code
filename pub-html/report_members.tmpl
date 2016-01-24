@@ -1,0 +1,21 @@
+<h2><TMPL_VAR NAME="TITLE"></h2>
+
+<TMPL_IF NAME="BY_NAME">Sort by name | <a href=\"report_members.pl?sortby=instrument\">Sort by instrument</a><TMPL_ELSE><a href=\"report_members.pl?sortby=cn\">Sort by name</a> | Sort by instrument</TMPL_IF>
+
+<table border='0' cellpadding='2'>
+<TMPL_LOOP NAME="USERS">
+  <tr>
+	<td rowspan='1' class='entitylist<TMPL_VAR NAME="COLOUR_NUMBER">'><img src='../../images/members/<TMPL_VAR NAME="UID">.jpg' width=100 align='left'/></td>
+	<td colspan='1' align='left' class='entitylist<TMPL_VAR NAME="COLOUR_NUMBER">'><a href="member.pl?action=view&member=<TMPL_VAR NAME="ENCODED_DN">"><TMPL_VAR NAME="CN"></a> (<TMPL_VAR NAME="AGE">)<br/>
+			<TMPL_LOOP NAME="spb-instrument">Instrument: <TMPL_VAR NAME="INSTRUMENT"><br/></TMPL_LOOP>
+			Mobile<TMPL_IF NAME="homePhone"> / Home</TMPL_IF>: <TMPL_VAR NAME="mobile"><TMPL_IF NAME="homePhone"> / <TMPL_VAR NAME="homePhone"></TMPL_IF><br/>
+			Address: <TMPL_VAR NAME="spb-houseIdentifierLocation"> <TMPL_VAR NAME="spb-streetLocation">, <TMPL_IF NAME="spb-boroughLocation"><TMPL_VAR NAME="spb-boroughLocation">, </TMPL_IF><TMPL_VAR NAME="spb-townLocation">, <TMPL_VAR NAME="spb-countyLocation">, <TMPL_VAR NAME="spb-postcodeLocation"><br/>
+			 <TMPL_LOOP NAME="mail"><a href="mailto:<TMPL_VAR NAME="MAIL">"><TMPL_VAR NAME="MAIL"></a><br/></TMPL_LOOP> </td>
+			
+	<!-- <TMPL_LOOP NAME="employeetype"><TMPL_VAR NAME="ROLE"></TMPL_LOOP> <TMPL_VAR NAME="spb-latlocation"> <TMPL_VAR NAME="personaltitle"> -->
+	<!-- <TMPL_VAR NAME="spb-subBalance"> <TMPL_VAR NAME="spb-employerName"> -->
+	<!-- <TMPL_VAR NAME="spb-warrantHolder"> <TMPL_VAR NAME="spb-dateofBirth"> <TMPL_VAR NAME="spb-longlocation"> -->
+	<!-- <TMPL_VAR NAME="sn"> <TMPL_VAR NAME="spb-gender"> <TMPL_VAR NAME="na-joinDate"> <TMPL_VAR NAME="givenName"> -->
+ </tr>
+</TMPL_LOOP>
+</table>

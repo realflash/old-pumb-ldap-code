@@ -1,0 +1,256 @@
+		<TMPL_IF NAME="IS_ATTEMPTED">
+			<TMPL_IF NAME="IS_SUCCESS">
+			<h2>Booking added successfully</h2>
+			</TMPL_IF>
+			<TMPL_IF NAME="IS_REPEAT">
+			<h2>Booking not added</h2>
+			It has been detected that you have submitted the booking page twice. Perhaps you pressed the Refresh button. This second submission has been ignored. If you are having problems using the booking page, please <a href="sendmessage.pl">contact us</a>.
+			</TMPL_IF>
+		<TMPL_ELSE>
+			<h2><TMPL_VAR NAME="TITLE"></h2>
+			<TMPL_IF NAME="IS_SHOWFORM">
+
+			<TMPL_IF NAME="MESSAGE"><font color="red"><TMPL_VAR NAME="MESSAGE"></font></TMPL_IF>
+			Fill out the form below with as much information as possible. Fields marked with an asterisk (<font color="red">*</font>) are mandatory.<br/>
+			<br/>
+			<form action="book.pl" method="post">
+			<input type="hidden" name="action" value="add"/>
+			<table border="0" cellpadding="3">
+				<tr>
+					<th class="entitySectionHeader" colspan="2">Basic Details</th>
+				</tr>
+				<tr>
+					<td align="right">Event name:<font color="red">*</font></td>
+					<td><input type="text" size="50" name="spb-displayName"/></td>
+				</tr>
+				<tr>
+					<td/>
+					<td>Give a name for your event. If it does not have a name, put something appropriate such as "Smith-Jones Wedding". If your event is annual, please put the year on the end, such as "Crinkley Bottom F&ecirc;te 2008".
+				<tr>
+					<td align="right">Date:<font color="red">*</font></td>
+					<td><select name="na-dayOfEvent">
+						<TMPL_LOOP NAME="EVENT_DAY">
+							<option value="<TMPL_VAR NAME="PADDED_DAY">"<TMPL_IF NAME="SELECTED"> selected</TMPL_IF>><TMPL_VAR NAME="DAY"></option>
+						</TMPL_LOOP>
+						</select>
+						<select name="na-monthOfEvent">
+						<TMPL_LOOP NAME="EVENT_MONTH">
+							<option value="<TMPL_VAR NAME="MONTH_NUMBER">"<TMPL_IF NAME="SELECTED"> selected</TMPL_IF>><TMPL_VAR NAME="MONTH"></option>
+						</TMPL_LOOP>
+						</select>
+						<select name="na-yearOfEvent">
+						<TMPL_LOOP NAME="EVENT_YEAR">
+							<option<TMPL_IF NAME="SELECTED"> selected</TMPL_IF>><TMPL_VAR NAME="YEAR"></option>
+						</TMPL_LOOP>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td/>
+					<td>The band must have two months notice of any event. Your booking will be refused if this date is any earlier than <TMPL_VAR NAME="EVENT_LIMIT">.</td>
+				</tr>
+				<tr>
+					<td align="right">Time first playing:<font color="red">*</font></td>
+					<td><select name="na-hourOfEvent">
+						<TMPL_LOOP NAME="EVENT_HOUR">
+							<option value="<TMPL_VAR NAME="PADDED_HOUR">"<TMPL_IF NAME="SELECTED"> selected</TMPL_IF>><TMPL_VAR NAME="PADDED_HOUR"></option>
+						</TMPL_LOOP>
+						</select>
+						<bold>:</bold>
+						<select name="na-minuteOfEvent">
+						<TMPL_LOOP NAME="EVENT_MINUTE">
+							<option<TMPL_IF NAME="SELECTED"> selected</TMPL_IF>><TMPL_VAR NAME="MINUTE"></option>
+						</TMPL_LOOP>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td/>
+					<td>Put the time the band should start playing its first or only set. If there is a specific time for other sets, include them in the free text below.</td>
+				</tr>
+				<tr>
+					<td align="right">Time required on site:</td>
+					<td><select name="na-hourOnSite">
+						<TMPL_LOOP NAME="EVENT_HOUR">
+							<option value="<TMPL_VAR NAME="PADDED_HOUR">"<TMPL_IF NAME="SELECTED"> selected</TMPL_IF>><TMPL_VAR NAME="PADDED_HOUR"></option>
+						</TMPL_LOOP>
+						</select>
+						<bold>:</bold>
+						<select name="na-minuteOnSite">
+						<TMPL_LOOP NAME="EVENT_MINUTE">
+							<option<TMPL_IF NAME="SELECTED"> selected</TMPL_IF>><TMPL_VAR NAME="MINUTE"></option>
+						</TMPL_LOOP>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td/>
+					<td>You can normally leave this blank, and the band will arrive 30 minutes before the time above. If there are restrictions as to when the band can arrive, set this value.</td>
+				</tr>
+				<tr>
+					<th class="entitySectionHeader" colspan="2">Location of the event</th>
+				</tr>
+				<tr>
+					<td align="right">Location number or name:<font color="red">*</font></td>
+					<td><input type="text" size="30" name="spb-houseIdentifierLocation"/></td>
+				</tr>
+				<tr>
+					<td align="right">Street:<font color="red">*</font></td>
+					<td><input type="text" size="30" name="spb-streetLocation"/></td>
+				</tr>
+				<tr>
+					<td align="right">Locality:</td>
+					<td><input type="text" size="30" name="spb-boroughLocation"/></td>
+				</tr>
+				<tr>
+					<td align="right">Town:<font color="red">*</font></td>
+					<td><input type="text" size="30" name="spb-townLocation"/></td>
+				</tr>
+				<tr>
+					<td align="right">County:<font color="red">*</font></td>
+					<td><input type="gtext" size="30" name="spb-countyLocation"/></td>
+				</tr>
+				<tr>
+					<td align="right">Postcode:<font color="red">*</font></td>
+					<td><input type="gtext" size="9" maxlength="9" name="spb-postcodeLocation"/> &nbsp; &nbsp; <a href="http://postcode.royalmail.com/portal/rm/postcodefinder">Postcode finder</a></td>
+				</tr>
+				<tr>
+					<th class="entitySectionHeader" colspan="2">About the event</th>
+				</tr>
+				<tr>
+					<td align="right" valign="top">Description of your event:<font color="red">*</font><br/>
+					<br/>
+					What is the purpose of your event? What activities will be going on?</td>
+					<td><textarea rows="6" cols="45" name="description"></textarea></td>
+				</tr>
+				<tr>
+					<td align="right" valign="top">What the band would do:<font color="red">*</font><br/>
+					<br/>
+					Where would the band be, and what would they contribute to your event? Who would be listening to the band?</td>
+					<td><textarea rows="6" cols="45" name="spb-bandRoleInEvent"></textarea></td>
+				</tr>
+				<tr>
+					<td align="right" valign="top">Other info or questions:<br/>
+					<br/>
+					If there is any other relevant information or questions you have, include it here.</td>
+					<td><textarea rows="6" cols="45" name="spb-requesterFreeText"></textarea></td>
+				</tr>
+				<tr>
+					<th class="entitySectionHeader" colspan="2">Your contact details</th>
+				</tr>
+				<tr>
+					<td align="right">Your name:<font color="red">*</font></td>
+					<td><input type="text" size="30" name="spb-requesterName"/></td>
+				</tr>
+				<tr>
+					<td align="right">Your organisation's name:</td>
+					<td><input type="text" size="30" name="spb-requesterOrgName"/></td>
+				</tr>
+				<tr>
+					<td align="right">Your organisation's website:</td>
+					<td><input type="text" size="30" name="spb-requesterWebsite"/></td>
+				</tr>
+				<tr>
+					<td/>
+					<td>If there is a web page describing your event, or a site for your organisation, include it here.</td>
+				</tr>
+				<tr>
+					<td align="right">Landline phone number:<font color="red">*</font></td>
+					<td><input type="text" size="30" name="spb-requesterLandline"/></td>
+				</tr>
+				<tr>
+					<td align="right">Mobile phone number:<font color="red">*</font></td>
+					<td><input type="text" size="30" name="spb-requesterMobile"/></td>
+				</tr>
+				<tr>
+					<td/>
+					<td>If the band cannot use this mobile to contact an organiser on the day, please include another contact number in the description above.</td>
+				</tr>
+				<tr>
+					<th class="entitySectionHeader" colspan="2">Your contact address</th>
+				</tr>
+				<tr>
+					<td/>
+					<td>The band will use this address to send all correspondance to.</td>
+				</tr>
+				<tr>
+					<td align="right">House number or name:<font color="red">*</font></td>
+					<td><input type="text" size="30" name="spb-requesterHouseIdentifierLocation"/></td>
+				</tr>
+				<tr>
+					<td align="right">Street:<font color="red">*</font></td>
+					<td><input type="text" size="30" name="spb-requesterStreetLocation"/></td>
+				</tr>
+				<tr>
+					<td align="right">Locality:</td>
+					<td><input type="text" size="30" name="spb-requesterBoroughLocation"/></td>
+				</tr>
+				<tr>
+					<td align="right">Town:<font color="red">*</font></td>
+					<td><input type="text" size="30" name="spb-requesterTownLocation"/></td>
+				</tr>
+				<tr>
+					<td align="right">County:<font color="red">*</font></td>
+					<td><input type="gtext" size="30" name="spb-requesterCountyLocation"/></td>
+				</tr>
+				<tr>
+					<td align="right">Postcode:<font color="red">*</font></td>
+					<td><input type="gtext" size="9" maxlength="9" name="spb-requesterPostcodeLocation"></td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+						<br/>
+						<input value="Submit" type="submit"/>&nbsp;&nbsp;&nbsp;<input type="reset"/>
+					</td>
+				</tr>
+			</table>
+			</form>
+
+			<TMPL_ELSE>
+
+			<h3>Conditions of booking</h3>
+			The band has a number of requirements that must be met in order for it to be able to perform at an engagement. These
+			 requirements differ depending upon whether the event is indoor or outdoor. Once the band is engaged for your event, you will be required to sign an engagement contract which will contain the detailed conditions of your booking. These conditions are summarised below so that you know what to expect.
+			
+			<h4>Conditions for all events</h4>
+
+			<ul>
+				<li>The performance area for the band will need to be big enough to accommodate at least 20 seated musicians and a large amount of percussion instruments. The band currently occupies a space about 10m x 7m</li>
+				<li>The band will need a minimum of 20 chairs without arms as some instruments cannot be played in chairs of this type.</li>
+				<li>The performance area should be sufficiently well lit to enable musicians to read their music comfortably.</li>
+				<li>Typically the band's performance will consist of two halves of approximately 45 minutes. If your event has a specific program that must be met, include the details on the booking form. Dependant upon the distance the band must travel, a minimum duration of booking applies.</li>
+				<li>The programme of music will be broad and balanced and should suit all tastes, and will be chosen by the band. If your event has a specific theme, include the details on the booking form. If you have any specific musical requests, include the details on the booking form. The band cannot guarantee the inclusion of any specific piece of music in the programme - the piece you want may not be available in an arrangement suitable for the band's specific instruments.</li>
+				<li>Where the band will perform more than one segment, there should be at least 20 minutes and not more than 2 hours between the segments.</li>
+				<li>If you wish to provide attendees with a programme of music, include this information on the booking form, as the band does not always decide the order of music before the event.</li> 
+				<li>You must book the band a minimum of two months in advance. The booking form will not allow you to enter an event date that is less than two months in advance. For events during the summer season (May to September), you are strongly advised to book at least four months in advance.</li>
+				<li>The band reserves the right to cancel its participation in any event at any time if any of the booking conditions are not met, or for reasons beyond its control. The band reserves the right to charge a cancellation fee in this instance, up to 100% of the performance fee and commensurate with expenses incurred.</li>
+				<li>The band has some larger instruments. We must have vehicular access to the playing area.</li>
+				<li>An additional secure space is required close to the playing area for the storage of instrument cases, etc.</li>
+			</ul>
+
+			<h4>Additional conditions for indoor events</h4>
+
+			<ul>
+				<li>The room to be used for the performance must be large enough not only to accommodate the band, but also to ensure that the audience can listen to the band comfortably and without being overpowered by the music. The band consists of around 20 woodwind, brass and percussion players. If in doubt, please mention your concern on the booking form.</li>
+			</ul>
+ 
+			<h4>Additional conditions for outdoor events</h4>
+
+			<ul>
+				<li>The area provided for the band to perform must be accessible to the public and should provide an opportunity for people to sit down and listen.</li>
+				<li>The band must not be placed next to any other stalls or events that generate noise, musical or otherwise (such as  local radio road shows, disco/performance stalls/tents, generators, fairground type rides). The band cannot and will not compete with this type of attraction.</li>
+				<li>If there is no alternative indoor location for the band to play, the performance area must be fully under cover  and sheltered on three sides. If the band considers the weather likely to be too cold, windy or wet despite the cover, it reserves the right to cancel its participation in the event at any time.</li>
+			</ul>
+			<form action="book.pl" method="post"><input type="hidden" name="action" value="showform"/>
+			<table>
+				<tr>
+					<td><input type="checkbox" name="agree" value="1"/></td>
+					<td>I have read and understood, and agree to these conditions.</td>
+				</tr>
+				<tr>
+					<td colspan="2"><input type="submit" value="Go to booking form"/></td>
+				</tr>
+			</table>
+			</form>
+			</TMPL_IF>
+		</TMPL_IF>

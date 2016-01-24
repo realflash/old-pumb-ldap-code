@@ -1,0 +1,41 @@
+			<h2><TMPL_VAR NAME="TITLE"></h2>
+			<table border="0" cellpadding="3">
+				<tr>
+					<th class="entitylistheader">Actions</th>
+					<th class="entitylistheader">Name</th>
+					<th class="entitylistheader">Subs</th>
+				</tr>
+				<TMPL_LOOP NAME="USERS">
+				<tr>
+					<td class="entitylist<TMPL_VAR NAME="COLOUR_NUMBER">">
+					<center>
+						<a href="member.pl?action=view&member=<TMPL_VAR NAME="ENCODED_DN">">
+							<img src="/images/view.gif" border="0" title="View the details of <TMPL_VAR NAME="DISPLAY_NAME">"/>
+						</a>
+					<TMPL_IF NAME="IS_MEMBERSHIP_ADMIN">
+						<a href="member.pl?action=edit&member=<TMPL_VAR NAME="ENCODED_DN">">
+							<img src="/images/edit.gif" border="0" title="Edit the details of <TMPL_VAR NAME="DISPLAY_NAME">"/>
+						</a>
+						<a href="test.pl?action=edit&member=<TMPL_VAR NAME="ENCODED_DN">">
+							<img src="/images/edit.gif" border="0" title="Edit the details of <TMPL_VAR NAME="DISPLAY_NAME">"/>
+						</a>
+					<TMPL_ELSE>
+							<img src="/images/blank_button.gif" border="0" title="No permission to edit <TMPL_VAR NAME="DISPLAY_NAME">"/>
+					</center>
+ 					</TMPL_IF> 
+					</td>
+					<td class="entitylist<TMPL_VAR NAME="COLOUR_NUMBER">">
+						<a href="member.pl?action=view&member=<TMPL_VAR NAME="ENCODED_DN">" title="View the details of <TMPL_VAR NAME="DISPLAY_NAME">">
+							<TMPL_VAR NAME="DISPLAY_NAME">
+						</a>
+					</td>
+					<TMPL_IF NAME="HIGHLIGHT">
+					<td class="entitylist3">
+					<TMPL_ELSE>
+					<td class="entitylist<TMPL_VAR NAME="COLOUR_NUMBER">">
+					</TMPL_IF>
+						<TMPL_VAR NAME="SUB_BALANCE">
+					</td>
+				</tr>
+				</TMPL_LOOP>
+			</table>

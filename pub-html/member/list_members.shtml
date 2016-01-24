@@ -1,0 +1,5 @@
+<!--#include virtual="header.html"-->
+<!--#include virtual="menubar_member.html"-->
+						<h2>List of members</h2>
+<!--#include virtual="cgi-bin/list_members.pl"-->
+<!--#include virtual="footer.html"-->

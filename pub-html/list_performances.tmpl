@@ -1,0 +1,52 @@
+			<h2>Performances</h2>
+			On this page you'll find details of the future events at which you can hear the band play. Events are public (and possibly ticketed)
+			unless otherwise stated. To keep up to date with the band when new events are added, you can <a href="mailinglist.pl">join the mailing
+			 list</a>. All times are local, and dates are in the format DD/MM/YY.<br/>
+
+			<h3>Future performances</h3>
+		<TMPL_IF NAME="IS_FUTURE">
+			<table width="550" border="0" cellpadding="2">
+			<TMPL_LOOP NAME="FUTURE_EVENTS">
+				<tr><td class="pubeventlistname" align="right">Name:</td>
+					<td class="pubeventlistname">&nbsp;<a name="<TMPL_VAR NAME="ANCHOR_NAME">"><TMPL_VAR NAME="CN"></a></td></tr>
+				<tr><td class="futureevent" align="right" width="100">Date and time:</td>
+					<td class="futureevent"><TMPL_VAR NAME="DISPLAY_DATE"> at <TMPL_VAR NAME="TIME"></td></tr>
+				<tr><td class="futureevent" valign="top" align="right">Description:</td>
+					<td class="futureevent"><TMPL_VAR NAME="DESCRIPTION"></td></tr>
+				<tr><td class="futureevent" valign="top" align="right">Address:</td>
+					<td class="futureevent"><TMPL_VAR NAME="HOUSE_IDENTIFIER"><TMPL_IF NAME="DISPLAY_AS_NUMBER"> <TMPL_ELSE>,<br/>
+					</TMPL_IF><TMPL_VAR NAME="STREET">,<br/>
+					<TMPL_VAR NAME="TOWN">,<br/>
+					<TMPL_VAR NAME="COUNTY">,<br/>
+					<TMPL_VAR NAME="POSTCODE"></td></tr>
+				<tr><td colspan="2">&nbsp;</td></tr>
+			</TMPL_LOOP>
+			</table>
+		<TMPL_ELSE>
+			There are no future performances scheduled.
+		</TMPL_IF>
+
+			<h3>Past performances</h3>
+		<TMPL_IF NAME="IS_PAST">
+			Showing performances in the last <TMPL_VAR NAME="PAST_PERF_LIMIT_DAYS"> days.<br/>
+			<br/>
+			<table width="550" border="0" cellpadding="2">
+			<TMPL_LOOP NAME="PAST_EVENTS">
+				<tr><td class="pubeventlistname" align="right">Name:</td>
+					<td class="pubeventlistname">&nbsp;<a name="<TMPL_VAR NAME="ANCHOR_NAME">"><TMPL_VAR NAME="CN"></a></td></tr>
+				<tr><td class="pastevent" align="right" width="100">Date and time:</td>
+					<td class="pastevent"><TMPL_VAR NAME="DISPLAY_DATE"> at <TMPL_VAR NAME="TIME"></td></tr>
+				<tr><td class="pastevent" valign="top" align="right">Description:</td>
+					<td class="pastevent"><TMPL_VAR NAME="DESCRIPTION"></td></tr>
+				<tr><td class="pastevent" valign="top" align="right">Address:</td>
+					<td class="pastevent"><TMPL_VAR NAME="HOUSE_IDENTIFIER"><TMPL_IF NAME="DISPLAY_AS_NUMBER"> <TMPL_ELSE>,<br/>
+					</TMPL_IF><TMPL_VAR NAME="STREET">,<br/>
+					<TMPL_VAR NAME="TOWN">,<br/>
+					<TMPL_VAR NAME="COUNTY">,<br/>
+					<TMPL_VAR NAME="POSTCODE"></td></tr>
+				<tr><td colspan="2">&nbsp;</td></tr>
+			</TMPL_LOOP>
+			</table>
+		<TMPL_ELSE>
+			There were no performances in the last <TMPL_VAR NAME="PAST_PERF_LIMIT_DAYS"> days.
+		</TMPL_IF>

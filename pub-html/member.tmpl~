@@ -1,0 +1,238 @@
+		<TMPL_IF NAME="IS_EDIT">
+			<h2><TMPL_VAR NAME="TITLE"></h2>
+			<TMPL_IF NAME="MESSAGE"><font color="red"><TMPL_VAR NAME="MESSAGE"></font></TMPL_IF>
+			Fields marked with an asterisk (<font color="red">*</font>) are mandatory<br/>
+			<br/>
+			<form action="member.pl" method="post">
+			<input type="hidden" name="member" value="<TMPL_VAR NAME="ESCAPED_MEMBER">"/>
+			<input type="hidden" name="action" value="<TMPL_VAR NAME="NEXT_ACTION">"/>
+			<table border="0" cellpadding="3">
+				<th class="entitySectionHeader" colspan="3">Vital statistics</th>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="TITLE_LBL">:<font color="red">*</font></td>
+					<td><select name="personalTitle">
+						<option<TMPL_IF NAME="IS_MR"> selected</TMPL_IF>>Mr.</option>
+						<option<TMPL_IF NAME="IS_MRS"> selected</TMPL_IF>>Mrs.</option>
+						<option<TMPL_IF NAME="IS_MS"> selected</TMPL_IF>>Ms.</option>
+						<option<TMPL_IF NAME="IS_MISS"> selected</TMPL_IF>>Miss</option>
+						<option<TMPL_IF NAME="IS_DR"> selected</TMPL_IF>>Dr.</option>
+						<option<TMPL_IF NAME="IS_PROF"> selected</TMPL_IF>>Prof.</option>
+						<option<TMPL_IF NAME="IS_REV"> selected</TMPL_IF>>Rev.</option>
+					</select></td>
+				</tr>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="GIVEN_NAME_LBL">:<font color="red">*</font></td>
+					<td><input type="text" size="30" name="givenName" value="<TMPL_VAR NAME="GIVEN_NAME">"/></td>
+				</tr>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="SN_LBL">:<font color="red">*</font></td>
+					<td><input type="text" size="30" name="sn" value="<TMPL_VAR NAME="SN">"/></td>
+				</tr>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="DOB_LBL">:<font color="red">*</font></td>
+					<td><select name="na-dayOfBirth">
+						<TMPL_LOOP NAME="DOB_DAY">
+							<option value="<TMPL_VAR NAME="PADDED_DAY">"<TMPL_IF NAME="SELECTED"> selected</TMPL_IF>><TMPL_VAR NAME="DAY"></option>
+						</TMPL_LOOP>
+						</select>
+						<select name="na-monthOfBirth">
+						<TMPL_LOOP NAME="DOB_MONTH">
+							<option value="<TMPL_VAR NAME="MONTH_NUMBER">"<TMPL_IF NAME="SELECTED"> selected</TMPL_IF>><TMPL_VAR NAME="MONTH"></option>
+						</TMPL_LOOP>
+						</select>
+						<select name="na-yearOfBirth">
+						<TMPL_LOOP NAME="DOB_YEAR"><option<TMPL_IF NAME="SELECTED"> selected</TMPL_IF>><TMPL_VAR NAME="YEAR"></option>
+						</TMPL_LOOP>
+						</select></td>
+				</tr>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="GENDER_LBL">:<font color="red">*</font></td>
+					<td><select name="spb-gender">
+							<option value="male"<TMPL_IF NAME="IS_MALE"> selected</TMPL_IF>>Male</option>\n";
+							<option value="female"<TMPL_IF NAME="IS_FEMALE"> selected</TMPL_IF>>Female</option>\n";
+						</select></td>
+				</tr>
+				<th class="entitySectionHeader" colspan="3">Band statistics</th>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="SUBS_LBL">:<font color="red">*</font></td>
+					<td>&pound; <input type="text" size="6" maxlength="6" name="spb-subBalance" value="<TMPL_VAR NAME="SUBS">"/></td>
+				</tr>
+				<tr>
+					<td align="right" valign="top"><TMPL_VAR NAME="ROLES_LBL">:</td>
+					<td><TMPL_LOOP NAME="ROLES"><input type="checkbox" name="na-Role<TMPL_VAR NAME="ROLE">"<TMPL_IF NAME="HAS_ROLE"> checked</TMPL_IF>/><TMPL_VAR NAME="ROLE_DISP_NAME"></input><br/></TMPL_LOOP></td>
+				</tr>
+				<tr>
+					<td align="right" valign="top"><TMPL_VAR NAME="INSTRUMENTS_LBL">:</td>
+					<td><TMPL_LOOP NAME="INSTRUMENTS"><input type="checkbox" name="na-Instrument<TMPL_VAR NAME="INSTRUMENT">"<TMPL_IF  NAME="PLAYS_INSTRUMENT"> checked</TMPL_IF>/><TMPL_VAR NAME="INSTRUMENT_DISP_NAME"></input><br/></TMPL_LOOP></td>
+				</tr>
+				<th class="entitySectionHeader" colspan="3">Contact Details</th>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="HI_LBL">:<font color="red">*</font></td>
+					<td><input type="text" size="30" name="spb-houseIdentifierLocation" value="<TMPL_VAR NAME="HI">"/></td>
+				</tr>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="STREET_LBL">:<font color="red">*</font></td>
+					<td><input type="text" size="30" name="spb-streetLocation" value="<TMPL_VAR NAME="STREET">"/></td>
+				</tr>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="BOROUGH_LBL">:</td>
+					<td><input type="text" size="30" name="spb-boroughLocation" value="<TMPL_VAR NAME="BOROUGH">"/></td>
+				</tr>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="TOWN_LBL">:<font color="red">*</font></td>
+					<td><input type="text" size="30" name="spb-townLocation" value="<TMPL_VAR NAME="TOWN">"/></td>
+				</tr>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="COUNTY_LBL">:<font color="red">*</font></td>
+					<td><input type="text" size="30" name="spb-countyLocation" value="<TMPL_VAR NAME="COUNTY">"/></td>
+				</tr>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="POSTCODE_LBL">:<font color="red">*</font></td>
+					<td><input type="text" size="9" maxlength="9" name="spb-postcodeLocation" value="<TMPL_VAR NAME="POSTCODE">"/></td>
+				</tr>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="HOME_PHONE_LBL">:</td>
+					<td><input type="text" size="30" name="homePhone" value="<TMPL_VAR NAME="HOME_PHONE">"/></td>
+				</tr>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="MOBILE_LBL">:</td>
+					<td width="300">
+						<input type="text" size="30" name="mobile" value="<TMPL_VAR NAME="MOBILE">"/><br/>
+						<div class="formhelptext">This information will be used to inform you of last minute changes to performances, etc.</div></td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center" class="formsectiontext">Enter up to three email addresses at which you should receive band-related email</td>
+				</tr>
+				<TMPL_LOOP NAME="MAILS">
+				<tr>
+					<td align="right"><TMPL_VAR NAME="MAIL_LBL"> <TMPL_VAR NAME="MAIL_NUMBER">:</td>
+					<td><input type="text" size="50" name="mail<TMPL_VAR NAME="MAIL_NUMBER">" value="<TMPL_VAR NAME="MAIL">"/></td>
+				</tr>
+				</TMPL_LOOP>
+				<th class="entitySectionHeader" colspan="3">Other Life Details</th>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="EMPL_NAME_LBL">:</td>
+					<td><input type="text" size="30" name="givenName" value="<TMPL_VAR NAME="EMPL_NAME">"/></td>
+				</tr>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="WRNT_HLDR_LBL">:</td>
+					<td><input type="checkbox" name="na-WarrantHolder"<TMPL_IF NAME="WRNT_HLDR"> checked</TMPL_IF>/></td>
+				</tr>
+				<th class="entitySectionHeader" colspan="3">Website Details</th>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="UID_LBL">:</td>
+					<td><TMPL_VAR NAME="UID"></td>
+				</tr>
+				<tr>
+					<td align="right">New password:</td>
+					<td><input type="password" size="30" maxlength="30" name="na-userpassword"/></td>
+				</tr>
+				<tr>
+					<td align="right">Confirm new password:</td>
+					<td><input type="password" size="30" maxlength="30" name="na-userpassword2"/></td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+						<br/>
+						<input value="Submit" type="submit"/>&nbsp;&nbsp;&nbsp;<input type="reset"/>
+					</td>
+				</tr>
+			</table>
+			</form>
+		<TMPL_ELSE>
+			<h1><TMPL_VAR NAME="TITLE"></h1>
+			<TMPL_IF NAME="MESSAGE">
+			<font color="red">Msg: <TMPL_VAR NAME="MESSAGE"></font><br/>
+			<br/>
+			</TMPL_IF>
+			<BR/>
+			<a href="member.pl?action=edit&member=<TMPL_VAR NAME="ESCAPED_MEMBER">">
+				<img src="/images/edit.gif" border="0" title="Edit this member"/>
+			</a> 
+			<a href="member.pl?action=edit&member=<TMPL_VAR NAME="ESCAPED_MEMBER">">
+				Edit this member
+			</a><br/>
+			<br/>
+			<table border="0" cellpadding="3">
+				<tr>
+					<td align="right"><TMPL_VAR NAME="DISP_NAME_LBL">:</td>
+					<td><TMPL_VAR NAME="PERSONAL_TITLE"> <TMPL_VAR NAME="DISP_NAME"></td>
+					<td rowspan="5"><a href="/images/members/<TMPL_VAR NAME="UID">.jpg" title="View image of <TMPL_VAR NAME="DISP_NAME"> full size"><img width="150" src="/images/members/<TMPL_VAR NAME="UID">.jpg"/></a></td></tr>
+				</tr>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="GIVEN_NAME_LBL">:</td>
+					<td><TMPL_VAR NAME="GIVEN_NAME"></td>
+				</tr>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="SN_LBL">:</td>
+					<td><TMPL_VAR NAME="SN"></td>
+				</tr>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="DOB_LBL">:</td>
+					<td><TMPL_VAR NAME="DOB"> (Age: <TMPL_VAR NAME="AGE">)</td>
+				</tr>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="GENDER_LBL">:</td>
+					<td><TMPL_VAR NAME="GENDER"></td>
+				</tr>
+				<th class="entitySectionHeader" colspan="3">Band statistics</th>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="SUBS_LBL">:</td>
+					<td<TMPL_IF NAME="OWES_MONEY"> class="entitybad"</TMPL_IF>>&pound;<TMPL_VAR NAME="SUBS"></td>
+				</tr>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="JOIN_DATE_LBL">:</td>
+					<td><TMPL_VAR NAME="JOIN_DATE"> (<TMPL_VAR NAME="LOS">)</td>
+				</tr>
+				<tr>
+					<td align="right" valign="top"><TMPL_VAR NAME="ROLES_LBL">:</td>
+					<td><TMPL_LOOP NAME="ROLES"><TMPL_IF NAME="HAS_ROLE"><TMPL_VAR NAME="ROLE_DISP_NAME"><br/><!--<TMPL_VAR NAME="ROLE"> -->
+						</TMPL_IF></TMPL_LOOP></td>
+				</tr>
+				<tr>
+					<td align="right" valign="top"><TMPL_VAR NAME="INSTRUMENTS_LBL">s:</td>
+					<td><TMPL_LOOP NAME="INSTRUMENTS"><TMPL_IF NAME="PLAYS_INSTRUMENT"><TMPL_VAR NAME="INSTRUMENT_DISP_NAME"><br/><!--<TMPL_VAR NAME="INSTRUMENT">-->
+						</TMPL_IF></TMPL_LOOP></td>
+				</tr>
+				<th class="entitySectionHeader" colspan="3">Contact Details</th>
+				<tr>
+					<td align="right" valign="top">Address:</td>
+					<td colspan="3"><TMPL_VAR NAME="HI"><TMPL_IF NAME="DISPLAY_AS_NUMBER"> <TMPL_ELSE>,<br/>
+					</TMPL_IF><TMPL_VAR NAME="STREET">,<br/>
+					<TMPL_VAR NAME="BOROUGH">,<br/>
+					<TMPL_VAR NAME="TOWN">,<br/>
+					<TMPL_VAR NAME="COUNTY">,<br/>
+					<TMPL_VAR NAME="POSTCODE"></td>
+				</tr>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="HOME_PHONE_LBL">:</td>
+					<td><TMPL_VAR NAME="HOME_PHONE"></td>
+				</tr>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="MOBILE_LBL">:</td>
+					<td><TMPL_VAR NAME="MOBILE"></td>
+				</tr>
+				<TMPL_LOOP NAME="MAILS">
+				<TMPL_IF NAME="MAIL">
+				<tr>
+					<td align="right"><TMPL_VAR NAME="MAIL_LBL"> <TMPL_VAR NAME="MAIL_NUMBER">:</td>
+					<td><TMPL_VAR NAME="MAIL"></td>
+				</tr>
+				</TMPL_IF>
+				</TMPL_LOOP>
+				<th class="entitySectionHeader" colspan="3">Other Life Details</th>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="EMPL_NAME_LBL">:</td>
+					<td><TMPL_VAR NAME="EMPL_NAME"></td>
+				</tr>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="WRNT_HLDR_LBL">:</td>
+					<td><TMPL_IF NAME="WRNT_HLDR">Yes<TMPL_ELSE>No</TMPL_IF></td>
+				</tr>
+				<th class="entitySectionHeader" colspan="3">Website Details</th>
+				<tr>
+					<td align="right"><TMPL_VAR NAME="UID_LBL">:</td>
+					<td><TMPL_VAR NAME="UID"></td>
+				</tr>
+			</table>
+		</TMPL_IF>

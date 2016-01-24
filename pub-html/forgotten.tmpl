@@ -1,0 +1,31 @@
+			<h2>Forgotten your username?</h2>
+			You can use any email address that the band has on record for you to log in. If you get email from the band, either the 
+			from mailing list or reminders about events, etc., then we have that email address on record for you, and you can use it 
+			to log in. In addition, you have a username for this site that is unique to you, and is much shorter. You can use that 
+			instead if you want.
+
+			<h3>What is my username?</h3>
+			Unless there's someone else in the band with a very very similar name to you, your username is the first five letters of your
+			surname, followed by the first letter of your first name. For example, if your name is <span id="highlight">F</span>rederica 
+			<span id="highlight">Blogg</span>ersson, your username will be <span id="highlight">bloggf</span>. If you are still not sure, 
+			speak to the Treasurer.
+
+			<h2>Forgotten/don't know/never been given your password?</h2>
+			If you have never been told what your password is, or you have forgotten it, enter one of the email addresses that the you 
+			receive band-related email at (or your username if you know it) below, and click "Reset my password". Your password will be reset and emailed to all the email 
+			addresses the band has on record for you. Once you have received and logged in, you will be able to change it to a password
+			you can remember.<br/>
+			<br/>
+			<form action="resetpwd.pl" method="post">
+			<table border="0" cellpadding="3">
+				<tr>
+					<td align="right">Email address:</td>
+					<td><input type="text" size="<TMPL_VAR NAME="MAX_UID_LENGTH">" name="uid"/></td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+						<input value="Reset my password" type="submit"/>
+					</td>
+				</tr>
+			</table>
+			</form>

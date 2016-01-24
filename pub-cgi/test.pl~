@@ -1,0 +1,420 @@
+#!/usr/bin/perl -wT
+
+use CGI ':standard';
+use CGI::Carp qw(warningsToBrowser fatalsToBrowser);
+use Net::LDAP;
+use BandWebsite;
+use CGI::Session;
+use HTML::Template;
+use Date::Manip;
+use Scalar::Util qw(looks_like_number);
+
+use strict;
+
+my $s = &getSettings;
+my $debug = "0";
+my $templates = $s->{'template_dir'};
+my $cgi = CGI->new;
+my $helper = BandWebsite->new({ basedn => $s->{'ldap_base_dn'} });
+my @instrument_definition_list = ('CLARINET', 'BASSCLARINET', 'OBOE', 'BASSOON', 'FLUTE', 'FRENCHHORN', 'CORNET', 'ALTOSAX',
+							'TENORSAX', 'TROMBONE', 'BASSTROMBONE', 'EUPHONIUM', 'BASS', 'PERCUSSION');
+my @role_definition_list = ('PERFORMER', 'CHAIRMAN', 'SECRETARY', 'TREASURER', 'LIBRARIAN', 'BANDMASTER');
+my $action = $cgi->param('action'); $action = 'view' unless defined $action;
+my $member = $cgi->unescape($cgi->param('member')); $member = '' unless defined $member;
+my $site_name = $s->{'site_name'}; $site_name = '' unless defined $site_name;
+my %params = $cgi->Vars; %params = () if not %params;
+my $message = '';
+
+my $header = HTML::Template->new(filename => "$templates/header.tmpl");
+my $content = HTML::Template->new(filename => "$templates/test.tmpl", global_vars => 1);
+my $footer = HTML::Template->new(filename => "$templates/footer.tmpl");
+
+# Are we logged in as someone?
+my $session = checkUserLoggedIn($cgi);
+
+if($session)
+{
+	$header->param(CN => $session->{'cn'});
+	$header->param(LOGGED_IN => 1);
+	my @links = ({HREF=>"list_members.pl",TEXT=>"Show all members"}, {HREF=>"report_membership.pl",TEXT=>"Contact Sheet"});
+	if($session->{'groups'}->{'Membership Admins'})
+	{
+		# TODO: Don't show performer details to non-performers
+		push(@links, {HREF=>"member.pl?action=add",TEXT=>"Add member"}, 
+				{HREF=>"delete.pl?type=member", TEXT=>"Delete member"},
+				{HREF=>"delete.pl?type=member&action=undelete", TEXT=>"Undelete member"});
+		# TODO: Don't show the page unless member
+		#$content->param(IS_MEMBERSHIP_ADMIN => 1);
+	}
+	$header->param(LINKS => \@links);
+}
+else
+{
+	print redirect(buildLoginPageURL($cgi));		# bounce the user to the login page, adding the source so that they can be 
+													# brought back once they are authenticated
+}
+
+# must be authenticated if we are still executing. Carry on!
+# Set up an LDAP connection
+my $ldap = Net::LDAP->new($s->{'ldap_server'}.":".$s->{'ldap_port'}) or die "Couldn't connect to LDAP: $!";
+my $lmsg = $ldap->bind( $s->{'ldap_bind_dn'}, password => $s->{'ldap_bind_pw'}) or die "Couldn't bind to LDAP: $!";
+
+my $member_details = {};						# init the details of the member as an empty hash
+
+$content->param(ESCAPED_MEMBER => $cgi->escape($member));
+
+# First set the defaults for the fields, which will be overwritten in an edit, but apply to an add
+my $dayOfBirth = 1;
+my $monthOfBirth = "01";
+my $yearOfBirth = 1977;
+my $dob = "19770101";
+my $title = "Add new member";
+my $gender = "male";
+my $instrument = "None";
+my ($houseIdentifierLocation, $streetLocation, $boroughLocation, $townLocation, $countyLocation, $postcodeLocation, $homePhone, $mobile) = "";
+my ($employerName, $warrantHolder, $cn, $subBalance, $cookie) = "";
+my (@mails, @role_display_list, @instrument_display_list) = ();
+my $next_action = "write";
+my $personalTitle = "Mr.";
+
+if($action eq "add")
+{
+	$content->param(IS_EDIT => 1);			# let the template know it should display the edit half not the view half
+	$content->param(TITLE => "Add member");
+	$content->param(NEXT_ACTION => "write");
+	$header->param(PAGE_TITLE => $site_name." - Add Member");
+	parseMember(1);
+}
+elsif($action eq "edit")
+{
+	# Overwrite the default values with the correct ones
+	$member_details = getMemberDetails($ldap, $member) if $member;	# overwrite the hash with real details if we have been passed the 
+																	# DN of a member to work with
+	$content->param(IS_EDIT => 1);			# let the template know it should display the edit half not the view half
+	$content->param(TITLE => "Edit member");
+	$content->param(NEXT_ACTION => "update");
+	$header->param(PAGE_TITLE => $site_name." - Edit Member ".$member_details->{'cn'});
+	&parseMember(1);
+}
+elsif($action eq "view")
+{
+	# Overwrite the default values with the correct ones
+	$member_details = getMemberDetails($ldap, $member) if $member;	# overwrite the hash with real details if we have been passed the 
+									# DN of a member to work with
+	$cn = $member_details->{'cn'};
+	$content->param(IS_EDIT => 0);			# let the template know it should display the edit half not the view half
+	$content->param(TITLE => "View member");
+	$header->param(PAGE_TITLE => $site_name." - View Member $cn");
+	&parseMember(0);
+}
+elsif($action eq "write" || $action eq "update")
+{
+	my ($firstName, $sn, $cn, $pwd, $crypt_pwd, $username, $nuUsername, $is_performer, @employeeType, @mail, $dob, $title, @atts);
+	my ($user_ldap_dn, $result) = "";
+	my (@delete_all, @delete_single, @instruments_played);
+	
+	$firstName = substr($params{'givenName'}, 0, length($params{'givenName'}));
+	logMsg("Update: '".$params{'givenName'}."'");
+	$sn = $params{'sn'};
+	$cn = $firstName." ".$sn;
+
+	
+	if($action eq "write")
+	{
+		$pwd = generate_random_string(8);
+		
+		# Now from the user's first and surname we need to generate an LDAP uid that is unique
+		($nuUsername, $username) = generate_names($ldap, sanitiseString($sn), sanitiseString($firstName)); 	# nuUsername - the standard username without any uniquer. 
+															# Usually equal to the username
+		$user_ldap_dn = "uid=$username,ou=people,ou=current,$s->{'ldap_base_dn'}";
+		$member = $user_ldap_dn;
+	}
+
+	if($action eq "write" || $action eq "update")
+	{
+		# Do some checks of the passed params to determine the values to add
+		if($params{'na-RolePERFORMER'} && $params{'na-RolePERFORMER'} eq "on") { push @employeeType, 'PERFORMER'; $is_performer = 1;}
+		if($params{'na-RoleCHAIRMAN'} && $params{'na-RoleCHAIRMAN'} eq "on") { push @employeeType, 'CHAIRMAN'; }
+		if($params{'na-RoleSECRETARY'} && $params{'na-RoleSECRETARY'} eq "on") { push @employeeType, 'SECRETARY'; }
+		if($params{'na-RoleTREASURER'} && $params{'na-RoleTREASURER'} eq "on") { push @employeeType, 'TREASURER'; }
+		if($params{'na-RoleLIBRARIAN'} && $params{'na-RoleLIBRARIAN'} eq "on") { push @employeeType, 'LIBRARIAN'; }
+		if($params{'na-RoleBANDMASTER'} && $params{'na-RoleBANDMASTER'} eq "on") { push @employeeType, 'BANDMASTER'; }
+		if($params{'mail1'}) { push @mail, $params{'mail1'}; }
+		if($params{'mail2'}) { push @mail, $params{'mail2'}; }
+		if($params{'mail3'}) { push @mail, $params{'mail3'}; }
+		$dob = $params{'na-yearOfBirth'}.$params{'na-monthOfBirth'}.$params{'na-dayOfBirth'};
+		@atts = ('cn' => $cn, 'spb-dateOfBirth' => $dob);
+ #		if($params{'na-WarrantHolder'} && $params{'na-WarrantHolder'} eq "on") { push @atts, 'spb-warrantHolder' => 1; } else { push @atts, 'spb-warrantHolder' => 0; }
+
+		foreach my $instrument (@instrument_definition_list)
+		{
+			if($params{"na-Instrument$instrument"} && $params{"na-Instrument$instrument"} eq "on") { push @instruments_played, $instrument};
+		}
+
+		if($params{'na-userpassword'})
+		{
+			if($params{'na-userpassword'} ne $params{'na-userpassword2'}) { die "Passwords are not the same. Please go back and try again\n"; }
+			if(length($params{'na-userpassword'}) < $s->{'min_pass_length'}) { die "Password is too short. Please choose a password at least ".$s->{'min_pass_length'}." characters long. Please go back and try again\n"; }
+			if(length($params{'na-userpassword'}) > $s->{'max_pass_length'}) { die "Password is too long. Please choose a password no more than ".$s->{'min_pass_length'}." characters long. Please go back and try again\n"; }
+			$pwd = $params{'na-userpassword'};
+		}		
+		if($pwd)
+		{
+			$crypt_pwd = "{crypt}".crypt($pwd,"km");
+			push @atts, 'userPassword' => $crypt_pwd;
+		}
+
+		# TODO: Lat and Long of address
+		foreach my $param (keys %params)
+		{
+			#if($param =~ /na-[a-zA-Z0-9]+/ || $param =~ /mail/ || $param eq "action" || $param eq "member")
+			if($param =~ /na-[a-zA-Z0-9]+/ || $param eq "action" || $param eq "member")
+			{ 
+				#logMsg("$param - not an att"); 
+			} 
+			elsif($param =~ /^([a-zA-Z-]+)([0-9]+)$/)
+			{
+				#logMsg("$param - is multivalue - not adding directly");
+			}
+			else
+			{
+				#logMsg("$param - adding $param");
+				if(length($params{$param}) > 0)
+				{
+					push @atts, $param => $params{$param};
+				}
+				else
+				{
+					die "Field '".getAttributeDisplayName($param)."' cannot be empty. Please go back and enter a value.\n\n" if not attributeOptional($param);
+				}
+			}
+		}
+
+		# Add optional atts if they exist, otherwise add them to the list of values to be deleted if they are in LDAP
+		#foreach my $att (qw(spb-boroughLocation homePhone mobile))
+		foreach my $att (@{getOptionalAttributes()})
+		{
+#			#print STDERR "Checking $att";
+			my $val = $params{$att}; $val = '' if not $val;
+			if(length($val) < 1) { push @delete_all, $att if $action eq "update" && attributeExists($ldap, $member, $att); }
+		}
+		my %multi_value_atts = ('employeeType' => \@employeeType, 'mail' => \@mail, 'spb-Instrument' => \@instruments_played);
+		foreach my $att (keys %multi_value_atts)
+		{
+			my $att_values_ref = $multi_value_atts{$att};
+			if(@{$att_values_ref}) { push @atts, $att => $att_values_ref; }
+			else { push @delete_all, $att if $action eq "update" && attributeExists($ldap, $member, $att); }
+		}
+		#foreach my $att (@delete_all) { print STDERR "Deleting $att"; }
+	}
+	if($action eq "write")
+	{
+		# Add stuff that is only required for creating users, not modifying them
+		# TODO: Don't assume today was �1
+		push @atts, 'uid' => $username, 'objectClass' => [qw(spbPerson spbLocation)];
+		
+#		foreach $att (@atts) { print STDERR $att; }
+		
+		# Add the user entry to the directory
+		$result = $ldap->add($user_ldap_dn, attrs => \@atts) unless $debug;
+		$result->code && die "failed to add entry: ", $result->error unless $debug;
+
+		# Add to relevant LDAP group
+		if($is_performer)
+		{
+			$result = $ldap->modify("cn=Performers,ou=groups,ou=current,$s->{'ldap_base_dn'}", add => { uniqueMember => $user_ldap_dn }) unless $debug;
+			$result->code && die "failed to add $username to group Performers: ", $result->error unless $debug;
+			$result = $ldap->modify("cn=Sub-paying members,ou=groups,ou=current,$s->{'ldap_base_dn'}", add => { uniqueMember => $user_ldap_dn }) unless $debug;
+			$result->code && die "failed to add $username to group Sub-paying members: ", $result->error unless $debug;
+		}
+	}
+	if($action eq "update")
+	{
+		# Modify the user entry to the directory
+		$result = $ldap->modify($member, replace => \@atts, delete => \@delete_all) unless $debug;
+		$result->code && die "Failed to modify entry: ", $result->error unless $debug;
+	}
+
+	if($action eq "write" || $action eq "update")
+	{
+		# since we were successful, set a cookie to mark that we did it already for this user. This will help prevent browser refreshes adding users
+		$cookie = setCookieForUser($nuUsername) unless $debug;
+	
+		
+		# Print a message to say all is well
+		$message = "Changes saved";
+	}
+
+	# Reload the user with the new values
+	$member_details = getMemberDetails($ldap, $member) if $member;	# overwrite the hash with real details if we have been passed the 
+																	# DN of a member to work with
+	$content->param(IS_EDIT => 0);			# let the template know it should display the edit half not the view half
+	$header->param(PAGE_TITLE => $site_name." - View Member $cn");
+	$content->param(TITLE => "View member");
+	&parseMember;
+}
+
+$lmsg = $ldap->disconnect;
+
+$header->param(IS_IE6 => 1) if(&isIE6);
+
+if($cookie)
+{
+	print header(-cookie => $cookie);
+}
+else
+{
+	print header;
+}
+print $header->output;
+print $content->output;
+print $footer->output;
+
+sub parseMember
+{
+	my $is_edit = shift;
+
+	$personalTitle = $member_details->{'personalTitle'};
+	$dob = $member_details->{'spb-dateOfBirth'};
+	$dayOfBirth = substr($dob,6,2);
+	$monthOfBirth = substr($dob,4,2);
+	$yearOfBirth = substr($dob,0,4);
+	$gender= lc($member_details->{'spb-gender'});
+	$houseIdentifierLocation = $member_details->{'spb-houseIdentifierLocation'};
+	$streetLocation = $member_details->{'spb-streetLocation'};
+	$boroughLocation = $member_details->{'spb-boroughLocation'};
+	$townLocation = $member_details->{'spb-townLocation'};
+	$countyLocation = $member_details->{'spb-countyLocation'};
+	$postcodeLocation = $member_details->{'spb-postcodeLocation'};
+	$homePhone = $member_details->{'homePhone'};
+	$mobile= $member_details->{'mobile'};
+	$instrument = $member_details->{'spb-instrument'};
+	$employerName = $member_details->{'spb-employerName'};
+	$warrantHolder = " checked" if $member_details->{'spb-warrantHolder'};
+	$cn = $member_details->{'cn'};
+	$subBalance = $member_details->{'spb-subBalance'};
+	for(my $i = 0; $i < 3; $i++)			# get the first three stored email addresses
+	{
+		$mails[$i] = ${$member_details->{'mail'}}[$i];
+	}
+
+	$title = "Details for member $cn";
+	$next_action = "update";
+	
+	my $roles = $member_details->{'employeeType'};
+	foreach my $role (@role_definition_list)
+	{
+		if(grep /$role$/i, @$roles)
+		{
+			 push @role_display_list, { ROLE_DISP_NAME => getValueDisplayName($role), ROLE => $role, HAS_ROLE => 1 };
+		}
+		else
+		{
+			 push @role_display_list, { ROLE_DISP_NAME => getValueDisplayName($role), ROLE => $role, HAS_ROLE => 0 };
+		}
+	}
+
+	my $instruments_played = $member_details->{'spb-instrument'};
+	foreach my $instrument (@instrument_definition_list)
+	{
+		if(grep /$instrument$/i, @$instruments_played)
+		{
+			 push @instrument_display_list, { INSTRUMENT_DISP_NAME => getValueDisplayName($instrument), INSTRUMENT => $instrument, PLAYS_INSTRUMENT => 1 };
+		}
+		else
+		{
+			 push @instrument_display_list, { INSTRUMENT_DISP_NAME => getValueDisplayName($instrument), INSTRUMENT => $instrument, PLAYS_INSTRUMENT => 0 };
+ 		}
+	}
+
+	my @days;
+	for(my $i = 1; $i <= 31; $i++)
+	{
+		my $padded = '';
+		if($i < 10)	{ $padded = "0$i"; }
+		else { $padded = $i; }
+		my $selected = 1 if $i == $dayOfBirth;
+		push(@days, { DAY => $i, PADDED_DAY => $padded, SELECTED => $selected });
+	}
+
+	my @months;
+	foreach my $month (qw(January February March April May June July August September October November December))
+	{
+		my $month_number = getMonthNumber($month);
+		my $selected = 1 if $month_number eq $monthOfBirth;
+		push(@months, { MONTH => $month, MONTH_NUMBER => $month_number, SELECTED => $selected });
+	}
+
+	my @years;
+	my $this_year = UnixDate(ParseDate("today"), "%Y");
+	for(my $i = $this_year - 15; $i >= $this_year - 100; $i--)
+	{
+		my $selected = 1 if $i eq $yearOfBirth;
+		push(@years, { YEAR => $i, SELECTED => $selected });
+	}
+
+	my @mails_list;
+	for(my $i = 0; $i < 3; $i++)
+	{
+		my $mail_number = $i + 1;
+		push(@mails_list, { MAIL => $mails[$i], MAIL_NUMBER => $mail_number });
+	}
+	if($is_edit)
+	{
+		$content->param(TITLE_LBL => getAttributeDisplayName('personalTitle'));
+		$content->param(IS_MR => 1) if $personalTitle eq "Mr.";
+		$content->param(IS_MRS => 1) if $personalTitle eq "Mrs.";
+		$content->param(IS_MS => 1) if $personalTitle eq "Ms.";
+		$content->param(IS_MISS => 1) if $personalTitle eq "Miss";
+		$content->param(IS_DR => 1) if $personalTitle eq "Dr.";
+		$content->param(IS_PROF => 1) if $personalTitle eq "Prof.";
+		$content->param(IS_REV => 1) if $personalTitle eq "Rev.";
+
+		$content->param(IS_MALE => 1) if $gender eq "male";
+		$content->param(IS_FEMALE => 1) if $gender eq "female";
+
+		$content->param(DOB_DAY => \@days, DOB_MONTH => \@months, DOB_YEAR => \@years);
+
+		$content->param(HI_LBL => getAttributeDisplayName('spb-houseIdentifierLocation'));
+		$content->param(STREET_LBL => getAttributeDisplayName('spb-streetLocation'));
+		$content->param(BOROUGH_LBL => getAttributeDisplayName('spb-boroughLocation'));
+		$content->param(TOWN_LBL => getAttributeDisplayName('spb-townLocation'));
+		$content->param(COUNTY_LBL => getAttributeDisplayName('spb-countyLocation'));
+		$content->param(POSTCODE_LBL => getAttributeDisplayName('spb-postcodeLocation'));
+	}
+	else
+	{
+		$content->param(PERSONAL_TITLE => $personalTitle);
+
+		$content->param(GENDER => capitaliseFirstLetter(lc($gender)));
+
+		$content->param(DOB => getRealDate($dob), AGE => getAge($dob));
+	}
+#logMsg($member_details->{'givenName'}."'");
+	$content->param(OWES_MONEY => 1) if $subBalance < 0;
+ 	$content->param(DISPLAY_AS_NUMBER => 1) if looks_like_number($houseIdentifierLocation);
+	$content->param(DISP_NAME_LBL => getAttributeDisplayName('cn'), DISP_NAME => $cn,
+					GENDER_LBL => getAttributeDisplayName('spb-gender'), 
+					JOIN_DATE_LBL => getAttributeDisplayName('na-joinDate'), JOIN_DATE => getRealDate($member_details->{'na-joinDate'}),
+																			LOS => getTimeDelta($member_details->{'na-joinDate'}),
+					DOB_LBL => getAttributeDisplayName('spb-dateOfBirth'), 
+					SUBS_LBL => getAttributeDisplayName('spb-subBalance'), SUBS => $subBalance,
+					HI => $houseIdentifierLocation,
+					STREET => $streetLocation,
+					BOROUGH => $boroughLocation,
+					TOWN => $townLocation,
+					COUNTY => $countyLocation,
+					POSTCODE => $postcodeLocation,
+# 					UID_LBL => getAttributeDisplayName('uid'), UID => $member_details->{'uid'},
+					GIVEN_NAME_LBL => getAttributeDisplayName('givenName'), GIVEN_NAME => $member_details->{'givenName'},
+					SN_LBL => getAttributeDisplayName('sn'), SN => $member_details->{'sn'},
+					HOME_PHONE_LBL => getAttributeDisplayName('homePhone'), HOME_PHONE => $member_details->{'homePhone'},
+					MOBILE_LBL => getAttributeDisplayName('mobile'), MOBILE => $member_details->{'mobile'},
+					MAIL_LBL => getAttributeDisplayName('mail'), MAILS => \@mails_list,
+ #					EMPL_NAME_LBL => getAttributeDisplayName('spb-employerName'), EMPL_NAME => $member_details->{'spb-employerName'},
+ #					WRNT_HLDR_LBL => getAttributeDisplayName('spb-warrantHolder'), WRNT_HLDR => $member_details->{'spb-warrantHolder'},
+					ROLES_LBL => getAttributeDisplayName('employeeType'), ROLES => \@role_display_list,
+					INSTRUMENTS_LBL => getAttributeDisplayName('spb-instrument'), 
+					INSTRUMENTS => \@instrument_display_list
+					);
+}

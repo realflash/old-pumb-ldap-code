@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<title><TMPL_VAR NAME="PAGE_TITLE"></title>
+	<link href="/css/styles.css" rel="stylesheet" type="text/css" />
+	<script src="/functions.js"></script>
+</head>
+
+<body>
+<div id="container">
+
+	<!-- Page header -->
+	<div id="header">
+		<img src="/images/band_name.<TMPL_IF NAME="IS_IE6">gif<TMPL_ELSE>png</TMPL_IF>" align="left"/>
+	</div>
+
+	<div id="menu_bar">
+		<div class="menu_bar_left">
+			<a class="menulink" href="front.pl">Home</a>
+			 | <a class="menulink" href="about.pl">About</a> 
+			 | <a class="menulink" href="list_performances.pl">Events</a>
+			 <TMPL_IF NAME="LOGGED_IN">| <a class="menulink" href="list_members.pl">Members</a>
+			 | <a class="menulink" href="download.pl">Files</a>
+			 | <a class="menulink" href="paymysubs.pl">Subs</a>
+			  <TMPL_ELSE>| <a class="menulink" href="sendmessage.pl">Contacts</a>
+</TMPL_IF>
+	    </div>
+		<div class="menu_bar_right">
+			<TMPL_IF NAME="LOGGED_IN">Welcome, <TMPL_VAR NAME="CN"> <a class="smallmenulink" href="logout.pl">Log out</a><TMPL_ELSE><a class="menulink" href="login.pl">Log in</a></TMPL_IF>
+	    </div>
+    </div>
+
+	<div id="content_wrap">
+		<!-- Navigation -->
+		<div id="nav">
+			<span id="quick_links_title">Quick Links</span><br/>
+			<hr id="quick_links_divider"/>
+		  <ul>
+			<TMPL_LOOP NAME="LINKS">
+			<li><a href="<TMPL_VAR NAME="HREF">"><TMPL_VAR NAME="TEXT"></a></li>
+			</TMPL_LOOP>
+		  </ul>
+		<img src="/images/puma-transparent.gif" width="145" align="right"/>
+	  	</div>
+
+		<div id="main">
